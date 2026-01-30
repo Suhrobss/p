@@ -143,7 +143,25 @@
     <div id="progress" class="progress-bar h-full bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500" style="width: 12.5%"></div>
    </div><!-- Navigation Dots -->
    <div class="fixed right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3"><button onclick="goToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 active" data-slide="0"></button> <button onclick="goToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="1"></button> <button onclick="goToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="2"></button> <button onclick="goToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="3"></button> <button onclick="goToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="4"></button> <button onclick="goToSlide(5)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="5"></button> <button onclick="goToSlide(6)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="6"></button> <button onclick="goToSlide(7)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="7"></button>
-   </div><!-- Slide 1: Hero -->
+   </div>
+   <!-- Top Side Navigation -->
+<div class="fixed top-6 left-6 right-6 z-50 flex items-center justify-between pointer-events-none">
+  <button id="btn-prev"
+          onclick="prevSlide()"
+          class="pointer-events-auto group px-5 py-3 rounded-2xl bg-slate-800/70 border border-slate-700 hover:bg-slate-700/80 transition-all backdrop-blur flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
+    <span class="text-lg group-hover:-translate-x-0.5 transition-transform">←</span>
+    <span class="font-semibold">Назад</span>
+  </button>
+
+  <button id="btn-next"
+          onclick="nextSlide()"
+          class="pointer-events-auto group px-5 py-3 rounded-2xl bg-orange-500/90 border border-orange-400 hover:bg-orange-600 transition-all backdrop-blur flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
+    <span class="font-semibold">Далі</span>
+    <span class="text-lg group-hover:translate-x-0.5 transition-transform">→</span>
+  </button>
+</div>
+
+   <!-- Slide 1: Hero -->
    <section id="slide-0" class="slide active h-full w-full flex-col items-center justify-center relative overflow-hidden px-8"><!-- Background Pattern -->
     <div class="absolute inset-0 opacity-10">
      <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-orange-500 blur-3xl"></div>
@@ -237,8 +255,7 @@
       <p class="text-2xl text-slate-200 leading-relaxed italic">«Unionize — інструмент, що показує: знати свої права — це не просто слова, а <span class="text-orange-400 font-semibold">справжній спосіб захищати себе</span> і впливати на ситуацію»</p>
      </div>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← Назад</button> <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">Далі →</button>
-    </div>
+   </div>
    </section><!-- Slide 3: About the Game -->
    <section id="slide-2" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
     <div class="absolute inset-0">
@@ -286,7 +303,6 @@
       </div>
      </div>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← Назад</button> <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">Далі →</button>
     </div>
    </section><!-- Slide 4: Game Goals -->
    <section id="slide-3" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
@@ -352,8 +368,7 @@
       </div>
      </div>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← Назад</button> <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">Далі →</button>
-    </div>
+   </div>
    </section><!-- Slide 5: Game Components -->
    <section id="slide-4" class="slide h-full w-full flex-col items-center justify-center px-8 relative overflow-hidden">
     <div class="absolute inset-0">
@@ -404,8 +419,7 @@
       </div>
      </div>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← Назад</button> <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">Далі →</button>
-    </div>
+   </div>
    </section><!-- Slide 6: Development Process -->
    <section id="slide-5" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
     <div class="relative z-10 max-w-6xl w-full">
@@ -471,7 +485,6 @@
       </div>
      </div>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← Назад</button> <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">Далі →</button>
     </div>
    </section><!-- Slide 7: Impact & Rights Protection -->
    <section id="slide-6" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
@@ -507,8 +520,7 @@
       <p class="text-xl text-slate-200 italic">«Гра допоможе розібратися, як захистити працівників, навчить відповідальності за свої рішення і покаже, що <span class="text-green-400 font-semibold">разом легше долати труднощі</span>»</p>
      </div>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← Назад</button> <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">Далі →</button>
-    </div>
+   </div>
    </section><!-- Slide 8: Call to Action -->
    <section id="slide-7" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
     <div class="absolute inset-0">
@@ -551,8 +563,7 @@
      </div>
      <p class="fade-in-up stagger-6 text-xl text-orange-400 font-semibold heading-font">Грай. Думай. Дій. Разом — ми сила!</p>
     </div>
-    <div class="absolute bottom-8 flex gap-4"><button onclick="prevSlide()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors">← На початок</button> <button onclick="goToSlide(0)" class="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 transition-colors font-semibold">🔄 Переглянути знову</button>
-    </div>
+   </div>
    </section>
   </div>
   <script>
