@@ -273,12 +273,7 @@ body { -webkit-text-size-adjust: 100%; }
     overflow: hidden; /* загалом ховаємо */
   }
 
-  /* Але активний слайд може скролитись В СЕРЕДИНІ, якщо контент не влазить */
-  .slide.active{
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-  }
+  .slide.active{ overflow: hidden; }
 
   /* прибрати скролбар (естетика) */
   .slide.active::-webkit-scrollbar{ width: 0; height: 0; }
@@ -312,6 +307,24 @@ body { -webkit-text-size-adjust: 100%; }
     .p-8{ padding: 1.25rem !important; }
     .p-7{ padding: 1.25rem !important; }
   }
+   /* === FIT-TO-SCREEN (NO SCROLL) === */
+:root{ --topNav: 5.75rem; } /* місце під Назад/Далі */
+
+.slide{
+  height: 100dvh;              /* динамічна висота */
+  overflow: hidden !important; /* без скролу */
+  transform-origin: top center;
+}
+
+.slide.active{
+  transform: scale(var(--fitScale, 1));
+}
+
+/* на телефонах можна трохи зменшити верхній “air” */
+@media (max-width: 640px){
+  :root{ --topNav: 5.25rem; }
+}
+
 </style>
  <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
@@ -978,7 +991,46 @@ function setVH() {
 window.addEventListener('resize', setVH);
 window.addEventListener('orientationchange', setVH);
 setVH();
-   
+   function fitActiveSlide() {
+  const slide = document.querySelector('.slide.active');
+  if (!slide) return;
+
+  // скидаємо scale, щоб коректно виміряти реальні розміри
+  slide.style.setProperty('--fitScale', 1);
+
+  // доступна висота: екран мінус верхня навігація і системні відступи
+  const topNav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--topNav')) || 92;
+  const availableH = window.innerHeight - topNav - 16; // 16px запас
+  const availableW = window.innerWidth - 16;
+
+  // реальна “потрібна” висота/ширина контенту
+  const neededH = slide.scrollHeight;
+  const neededW = slide.scrollWidth;
+
+  // scale по висоті і ширині
+  const scaleH = availableH / neededH;
+  const scaleW = availableW / neededW;
+
+  // беремо мінімальний (щоб влізло і по H, і по W)
+  let scale = Math.min(scaleH, scaleW, 1);
+
+  // не даємо робити мікротекст (нижня межа — під себе налаштуй)
+  scale = Math.max(scale, 0.82);
+
+  slide.style.setProperty('--fitScale', scale);
+}
+
+// після показу слайду — піджати
+const _showSlide = showSlide;
+showSlide = function(i){
+  _showSlide(i);
+  requestAnimationFrame(() => fitActiveSlide());
+};
+
+// на resize / rotate — піджати
+window.addEventListener('resize', () => requestAnimationFrame(fitActiveSlide));
+window.addEventListener('orientationchange', () => requestAnimationFrame(fitActiveSlide));
+
     // Initialize
     showSlide(0);
     updateUI();
