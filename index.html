@@ -2,7 +2,7 @@
 <html lang="uk" class="h-full">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Unionize - Презентація</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -183,6 +183,77 @@ body { -webkit-text-size-adjust: 100%; }
   .mb-16 { margin-bottom: 2.5rem !important; }
   .mb-12 { margin-bottom: 2rem !important; }
   .mb-10 { margin-bottom: 1.5rem !important; }
+}
+   /* =========================
+   MOBILE FIT (SAFE)
+   вставити в кінець <style>
+========================= */
+
+/* 1) Справжня висота екрану на мобільних (iOS address bar fix) */
+:root { --vh: 1vh; }
+html, body { height: 100%; }
+body { -webkit-text-size-adjust: 100%; }
+
+/* Замість "h-full" на iPhone – робимо реальну висоту */
+#app { height: calc(var(--vh) * 100); }
+
+/* Кожен слайд займає реальну висоту екрану */
+.slide { min-height: calc(var(--vh) * 100); }
+
+/* 2) Мобільні правки саме для малих екранів */
+@media (max-width: 640px) {
+
+  /* Верхні кнопки – компактніші */
+  #btn-prev, #btn-next {
+    padding: 0.65rem 0.9rem !important;
+    border-radius: 1rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Навігаційні доти справа – ховаємо (вони заважають) */
+  .fixed.right-6.top-1\/2 { display: none !important; }
+
+  /* Загальні внутрішні відступи слайдів – менші */
+  .slide { padding-left: 1rem !important; padding-right: 1rem !important; }
+
+  /* HERO (slide-0): піджимаємо вертикально, щоб все влазило */
+  #slide-0 { padding-top: 5.5rem !important; padding-bottom: 1.25rem !important; }
+
+  /* Великий заголовок UNIONIZE – адаптивний */
+  #slide-0 #main-title {
+    font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
+    line-height: 1.02 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Підзаголовки – менші */
+  #slide-0 #subtitle { font-size: 1.1rem !important; margin-bottom: 0.5rem !important; }
+  #slide-0 .text-xl { font-size: 0.98rem !important; }
+
+  /* Довгий опис – компактніше */
+  #slide-0 .max-w-3xl { margin-bottom: 1rem !important; }
+
+  /* 3 бейджі-статистики – компактніше */
+  #slide-0 .glass-card { padding: 0.75rem 0.9rem !important; border-radius: 1.1rem !important; }
+  #slide-0 .glass-card .text-3xl { font-size: 1.6rem !important; line-height: 1 !important; }
+
+  /* Кнопка "Дізнатися більше" – нижче і менша */
+  #slide-0 button {
+    padding: 1rem 1.25rem !important;
+    border-radius: 1.1rem !important;
+    font-size: 1rem !important;
+  }
+
+  /* Плаваючі квадрати-іконки на Hero – ховаємо (на мобільному перекривають) */
+  #slide-0 .float-animation { display: none !important; }
+
+  /* Підказка "Прокрутіть вниз" – можна прибрати */
+  #slide-0 .animate-bounce { display: none !important; }
+}
+
+/* 3) Дуже низькі екрани: ще трохи піджимаємо відступи */
+@media (max-height: 700px) and (max-width: 640px) {
+  #slide-0 { padding-top: 5rem !important; }
 }
   </style>
  <style>@view-transition { navigation: auto; }</style>
@@ -843,7 +914,14 @@ body { -webkit-text-size-adjust: 100%; }
         ])
       });
     }
-    
+    // iOS viewport height fix (address bar safe)
+function setVH() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+}
+window.addEventListener('resize', setVH);
+window.addEventListener('orientationchange', setVH);
+setVH();
+   
     // Initialize
     showSlide(0);
     updateUI();
