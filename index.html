@@ -2,7 +2,7 @@
 <html lang="uk" class="h-full">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Unionize - Презентація</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -256,6 +256,63 @@ body { -webkit-text-size-adjust: 100%; }
   #slide-0 { padding-top: 5rem !important; }
 }
   </style>
+  <style>
+  /* === Global responsive slide fitting (safe, doesn't change text) === */
+  :root{
+    --topNav: 5.75rem; /* місце під кнопки Назад/Далі */
+    --sidePad: 2rem;
+  }
+
+  /* На мобільних/сучасних браузерах краще dvh (динамічна висота) */
+  .slide{
+    height: 100dvh;
+    padding-top: calc(var(--topNav) + env(safe-area-inset-top));
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    padding-left: var(--sidePad);
+    padding-right: var(--sidePad);
+    overflow: hidden; /* загалом ховаємо */
+  }
+
+  /* Але активний слайд може скролитись В СЕРЕДИНІ, якщо контент не влазить */
+  .slide.active{
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* прибрати скролбар (естетика) */
+  .slide.active::-webkit-scrollbar{ width: 0; height: 0; }
+  .slide.active{ scrollbar-width: none; }
+
+  /* Трохи компактніше на телефонах */
+  @media (max-width: 640px){
+    :root{ --sidePad: 1.25rem; }
+
+    /* загальні типографічні "стиски" без правки тексту */
+    #main-title{ font-size: clamp(2.6rem, 10vw, 4.2rem) !important; line-height: 1.05 !important; }
+
+    /* часті заголовки */
+    .heading-font.text-6xl{ font-size: clamp(2.1rem, 8.5vw, 3.2rem) !important; line-height: 1.05 !important; }
+    .heading-font.text-5xl{ font-size: clamp(1.75rem, 7.2vw, 2.6rem) !important; line-height: 1.1 !important; }
+
+    /* великі тексти */
+    .text-2xl{ font-size: clamp(1.05rem, 4.2vw, 1.4rem) !important; }
+    .text-xl{  font-size: clamp(0.98rem, 3.8vw, 1.2rem) !important; }
+
+    /* відступи: легкий "компрес" */
+    .mb-16{ margin-bottom: 2rem !important; }
+    .mb-12{ margin-bottom: 2rem !important; }
+    .mb-10{ margin-bottom: 1.5rem !important; }
+  }
+
+  /* Низькі екрани (ноути/малий viewport по висоті) */
+  @media (max-height: 760px){
+    .mb-12{ margin-bottom: 2rem !important; }
+    .mb-10{ margin-bottom: 1.5rem !important; }
+    .p-8{ padding: 1.25rem !important; }
+    .p-7{ padding: 1.25rem !important; }
+  }
+</style>
  <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
