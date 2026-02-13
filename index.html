@@ -255,6 +255,11 @@ body { -webkit-text-size-adjust: 100%; }
 @media (max-height: 700px) and (max-width: 640px) {
   #slide-0 { padding-top: 5rem !important; }
 }
+   /* Slide 8: не різати фон по краях */
+#slide-7 { overflow: visible !important; }
+
+/* щоб не виліз горизонтальний скрол */
+#slide-7 { overflow-x: clip !important; }
   </style>
   <style>
   /* === Global responsive slide fitting (safe, doesn't change text) === */
