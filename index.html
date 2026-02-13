@@ -260,13 +260,6 @@ body { -webkit-text-size-adjust: 100%; }
 
 /* щоб не виліз горизонтальний скрол */
 #slide-7 { overflow-x: clip !important; }
-  /* SCROLL MODE: slides can be taller than the screen */
-.slide{
-  height: auto !important;
-  min-height: 100vh;
-  padding-top: calc(6rem + env(safe-area-inset-top));
-  padding-bottom: calc(3rem + env(safe-area-inset-bottom));
-  overflow: visible !important;
 }
 
 /* активний слайд не має окремого внутрішнього скролу */
@@ -911,8 +904,12 @@ body { -webkit-text-size-adjust: 100%; }
       
       progress.style.width = ((index + 1) / totalSlides * 100) + '%';
       currentSlide = index;
+     
+  document.getElementById(`slide-${index}`)?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
     }
-    document.getElementById(`slide-${index}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     function nextSlide() {
       if (currentSlide < totalSlides - 1) {
