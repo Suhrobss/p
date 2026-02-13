@@ -178,8 +178,38 @@
     #slide-7 .text-2xl { font-size: 1.1rem !important; }
     #slide-7 .w-7.h-7 { width: 1.5rem !important; height: 1.5rem !important; }
     #slide-7 { overflow-x: clip !important; }
-
     @view-transition { navigation: auto; }
+    /* ===== FIX: НЕ різати glow/blur по краях слайдів ===== */
+
+/* 1) slide не має різати фон */
+.slide,
+.slide.active{
+  overflow: visible !important;
+  position: relative;
+  isolation: isolate; /* щоб бекграунд був “всередині” і не ліз по стеку */
+}
+
+/* 2) обрізання по X робимо на рівні app/deck (щоб не було горизонтального скролу) */
+#app,
+#deck{
+  overflow-x: clip !important; /* краще ніж hidden — не ріже blur так агресивно */
+}
+
+/* fallback якщо clip не підтримується */
+@supports not (overflow: clip){
+  #app, #deck{ overflow-x: hidden !important; }
+}
+
+/* 3) але НЕ ховай overflow-y на #app/#deck, інакше знову різатиме фон */
+#app, #deck{
+  overflow-y: visible !important;
+}
+
+/* 4) на всяк випадок прибери 100% і дай 100vw щоб не було “полос” */
+#deck,
+.slide{
+  width: 100vw !important;
+}
   </style>
 </head>
 
