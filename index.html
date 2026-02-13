@@ -158,62 +158,6 @@
 
   :root{ --topNav: 72px; } /* було 80px на моб */
 
-  /* загальні падінги слайдів — трохи менші */
-  section.slide{
-    padding-top: calc(var(--topNav) + env(safe-area-inset-top)) !important;
-    padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-  }
-
-  /* Hero: заголовок/відступи компактніше */
-  #main-title{
-    font-size: clamp(2.2rem, 9vw, 4.2rem) !important;
-    line-height: 1.02 !important;
-    margin-bottom: 0.9rem !important;
-  }
-  #subtitle{
-    font-size: 1.05rem !important;
-    margin-bottom: 0.75rem !important;
-  }
-  #slide-0 .mb-12{ margin-bottom: 1.6rem !important; }
-  #slide-0 .mb-16{ margin-bottom: 1.6rem !important; }
-
-  /* Картки статистики в hero */
-  #slide-0 .glass-card{
-    padding: .65rem .85rem !important;
-  }
-  #slide-0 .glass-card .text-3xl{
-    font-size: 1.35rem !important;
-  }
-
-  /* Зменшуємо вертикальні відступи у заголовках слайдів */
-  .mb-12{ margin-bottom: 1.6rem !important; }
-  .mb-10{ margin-bottom: 1.1rem !important; }
-  .mb-8{  margin-bottom: 1rem !important; }
-  .p-8{   padding: 1.1rem !important; }
-  .p-7{   padding: 1.1rem !important; }
-  .p-6{   padding: 1rem !important; }
-
-  /* Сітки: менше gap */
-  .grid{ gap: 1rem !important; }
-  #slide-4 .grid.grid-cols-2{ gap: .75rem !important; } /* компоненти */
-
-  /* Slide 7 (benefits): на моб 2 колонки замість 3 */
-  #slide-7 .grid.lg\:grid-cols-3{
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-  #slide-7 .heading-font.text-5xl{
-    font-size: 2.05rem !important;
-    line-height: 1.08 !important;
-  }
-
-  /* Кнопки навігації трохи компактніші */
-  #btn-prev, #btn-next{
-    padding: .55rem .8rem !important;
-    border-radius: .9rem !important;
-  }
-}
       /* доти праворуч сховаємо на мобільному */
       .fixed.right-6.top-1\/2{ display:none !important; }
       #btn-prev, #btn-next{
@@ -241,6 +185,32 @@
 #slide-7 .space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem !important; }
 #slide-7 .w-7.h-7 { width: 1.4rem !important; height: 1.4rem !important; } /* чек */
 #slide-7 .text-sm { font-size: 0.9rem !important; }      /* підписи */
+      /* ===== HARD MOBILE FIT (does NOT affect desktop) ===== */
+@media (max-width: 640px){
+
+  /* менше місця під верхню навігацію тільки на моб */
+  :root{ --topNav: 68px !important; }
+
+  /* трохи менші внутрішні відступи слайду */
+  section.slide{
+    padding-top: calc(var(--topNav) + env(safe-area-inset-top)) !important;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* КЛЮЧ: зменшуємо весь контент в кожному слайді */
+  section.slide > .relative.z-10{
+    transform: scale(0.92) !important;
+    transform-origin: top center !important;
+    width: 100% !important;
+  }
+
+  /* окремо hero трохи сильніше (там часто не влазить заголовок+статистика) */
+  #slide-0 > .relative.z-10{
+    transform: scale(0.90) !important;
+  }
+}
   </style>
 
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
