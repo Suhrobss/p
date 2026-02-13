@@ -1,932 +1,913 @@
- <!doctype html>
+<!doctype html>
 <html lang="uk" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Unionize - Презентація</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&amp;family=Open+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
   <style>
-    body {
-      box-sizing: border-box;
+    /* Base */
+    :root{
+      --vh: 1vh;
+      --topNav: 5.75rem;  /* місце під кнопки Назад/Далі */
+      --fitScale: 1;
     }
-    
-    * {
-      font-family: 'Open Sans', sans-serif;
-    }
-    
-    h1, h2, h3, h4, .heading-font {
-      font-family: 'Montserrat', sans-serif;
-    }
-    
-    .slide {
+
+    html, body { height: 100%; }
+    body { -webkit-text-size-adjust: 100%; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: inherit; }
+    * { font-family: 'Open Sans', sans-serif; }
+    h1, h2, h3, h4, .heading-font { font-family: 'Montserrat', sans-serif; }
+
+    /* Slides core */
+    .slide{
       display: none;
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 0.6s ease, transform 0.6s ease;
+      width: 100%;
+      min-height: calc(var(--vh) * 100);
+      padding-left: clamp(1rem, 3vw, 2rem);
+      padding-right: clamp(1rem, 3vw, 2rem);
+      padding-top: calc(var(--topNav) + env(safe-area-inset-top));
+      padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+      overflow: hidden;
+      transform-origin: top center;
     }
-    
-    .slide.active {
+
+    .slide.active{
       display: flex;
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(var(--fitScale, 1));
+      overflow: hidden;
     }
-    
-    .gradient-text {
+
+    /* Visual helpers */
+    .gradient-text{
       background: linear-gradient(135deg, #f97316 0%, #eab308 50%, #f97316 100%);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    
-    .card-hover {
+
+    .card-hover{
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
-    .card-hover:hover {
+    .card-hover:hover{
       transform: translateY(-8px) scale(1.02);
       box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.25);
     }
-    
-    .pulse-glow {
-      animation: pulseGlow 2s ease-in-out infinite;
-    }
-    
-    @keyframes pulseGlow {
+
+    .pulse-glow{ animation: pulseGlow 2s ease-in-out infinite; }
+    @keyframes pulseGlow{
       0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
       50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.6); }
     }
-    
-    .float-animation {
-      animation: floatUp 3s ease-in-out infinite;
-    }
-    
-    @keyframes floatUp {
+
+    .float-animation{ animation: floatUp 3s ease-in-out infinite; }
+    @keyframes floatUp{
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
-    
+
     .stagger-1 { animation-delay: 0.1s; }
     .stagger-2 { animation-delay: 0.2s; }
     .stagger-3 { animation-delay: 0.3s; }
     .stagger-4 { animation-delay: 0.4s; }
     .stagger-5 { animation-delay: 0.5s; }
     .stagger-6 { animation-delay: 0.6s; }
-    
-    .fade-in-up {
+
+    .fade-in-up{
       animation: fadeInUp 0.8s ease forwards;
       opacity: 0;
     }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeInUp{
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    
-    .progress-bar {
-      transition: width 0.3s ease;
-    }
-    
-    .nav-dot {
-      transition: all 0.3s ease;
-    }
-    
-    .nav-dot.active {
-      background: #f97316;
-      transform: scale(1.3);
-    }
-    
-    .hexagon {
+
+    .progress-bar{ transition: width 0.3s ease; }
+
+    .nav-dot{ transition: all 0.3s ease; }
+    .nav-dot.active{ background: #f97316; transform: scale(1.3); }
+
+    .hexagon{
       clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     }
-    
-    .stat-counter {
-      transition: all 0.5s ease;
-    }
-    
-    .rotating-border {
+
+    .rotating-border{
       background: linear-gradient(90deg, #f97316, #eab308, #22c55e, #f97316);
       background-size: 300% 100%;
       animation: rotateBorder 3s linear infinite;
     }
-    
-    @keyframes rotateBorder {
+    @keyframes rotateBorder{
       0% { background-position: 0% 50%; }
       100% { background-position: 300% 50%; }
     }
-    
-    .glass-card {
+
+    .glass-card{
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
-    .timeline-line {
-      background: linear-gradient(to bottom, #f97316, #eab308);
+
+    /* Responsive typography (safe) */
+    .heading-font.text-8xl { font-size: clamp(3rem, 7vw, 6rem); line-height: 1.05; }
+    .heading-font.text-6xl { font-size: clamp(2.2rem, 5vw, 3.75rem); line-height: 1.05; }
+    .heading-font.text-5xl { font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.08; }
+    .text-2xl { font-size: clamp(1.15rem, 2.2vw, 1.5rem); }
+    .text-xl  { font-size: clamp(1.02rem, 2vw, 1.25rem); }
+
+    /* Grid fallback without editing HTML */
+    @media (max-width: 1024px){
+      .lg\:grid-cols-2 { grid-template-columns: 1fr !important; }
+      .lg\:grid-cols-3 { grid-template-columns: 1fr !important; }
+      .lg\:grid-cols-4 { grid-template-columns: 1fr 1fr !important; }
+      .lg\:col-span-2  { grid-column: auto !important; }
     }
-   #slide-7 .text-5xl { font-size: 2.6rem; line-height: 1.05; }
-#slide-7 .text-xl { font-size: 1.05rem; line-height: 1.45; }
-#slide-7 .mb-10 { margin-bottom: 1.25rem !important; }
-#slide-7 .mb-4 { margin-bottom: 0.75rem !important; }
-#slide-7 .grid { gap: 1rem !important; }
-#slide-7 .p-7 { padding: 1.25rem !important; }
-#slide-7 .space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.55rem !important; }
-#slide-7 .w-14.h-14 { width: 3rem !important; height: 3rem !important; }
-#slide-7 .text-2xl { font-size: 1.1rem !important; }
-#slide-7 .w-7.h-7 { width: 1.5rem !important; height: 1.5rem !important; }
-   /* === Responsive base (safe) === */
+    @media (max-width: 640px){
+      :root{ --topNav: 5.25rem; }
+      .grid-cols-2 { grid-template-columns: 1fr !important; }
+      .slide { padding-left: 1rem !important; padding-right: 1rem !important; }
+      #slide-0 { padding-top: 5.5rem !important; padding-bottom: 1.25rem !important; }
+      #slide-0 #main-title{
+        font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
+        line-height: 1.02 !important;
+        margin-bottom: 0.75rem !important;
+      }
+      #slide-0 #subtitle{ font-size: 1.1rem !important; margin-bottom: 0.5rem !important; }
+      #slide-0 .text-xl{ font-size: 0.98rem !important; }
+      #slide-0 .max-w-3xl{ margin-bottom: 1rem !important; }
+      #slide-0 .glass-card{ padding: 0.75rem 0.9rem !important; border-radius: 1.1rem !important; }
+      #slide-0 .glass-card .text-3xl{ font-size: 1.6rem !important; line-height: 1 !important; }
+      #slide-0 button{ padding: 1rem 1.25rem !important; border-radius: 1.1rem !important; font-size: 1rem !important; }
+      #slide-0 .float-animation{ display: none !important; }
+      #slide-0 .animate-bounce{ display: none !important; }
+      .fixed.right-6.top-1\/2{ display: none !important; }
+      #btn-prev, #btn-next{
+        padding: 0.65rem 0.9rem !important;
+        border-radius: 1rem !important;
+        font-size: 0.95rem !important;
+      }
+    }
 
-/* Нормальна поведінка на мобільному (без сюрпризів масштабу) */
-html, body { height: 100%; }
-body { -webkit-text-size-adjust: 100%; }
+    /* Short screens */
+    @media (max-height: 760px){
+      .mb-12 { margin-bottom: 2rem !important; }
+      .mb-10 { margin-bottom: 1.5rem !important; }
+      .p-8, .p-7 { padding: 1.25rem !important; }
+    }
 
-/* Контент не "вилазить" по ширині */
-#app { max-width: 100vw; }
+    /* Slide 7 tuning */
+    #slide-7 .text-5xl { font-size: 2.6rem; line-height: 1.05; }
+    #slide-7 .text-xl  { font-size: 1.05rem; line-height: 1.45; }
+    #slide-7 .mb-10 { margin-bottom: 1.25rem !important; }
+    #slide-7 .mb-4  { margin-bottom: 0.75rem !important; }
+    #slide-7 .grid  { gap: 1rem !important; }
+    #slide-7 .p-7   { padding: 1.25rem !important; }
+    #slide-7 .space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.55rem !important; }
+    #slide-7 .w-14.h-14 { width: 3rem !important; height: 3rem !important; }
+    #slide-7 .text-2xl { font-size: 1.1rem !important; }
+    #slide-7 .w-7.h-7 { width: 1.5rem !important; height: 1.5rem !important; }
+    #slide-7 { overflow-x: clip !important; }
 
-/* Глобальні адаптивні відступи для секцій-слайдів */
-.slide { padding-left: clamp(1rem, 3vw, 2rem); padding-right: clamp(1rem, 3vw, 2rem); }
-
-/* Адаптивні заголовки (не ламає, але робить м’якше на малих екранах) */
-.heading-font.text-8xl { font-size: clamp(3rem, 7vw, 6rem); line-height: 1.05; }
-.heading-font.text-6xl { font-size: clamp(2.2rem, 5vw, 3.75rem); line-height: 1.05; }
-.heading-font.text-5xl { font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.08; }
-.text-2xl { font-size: clamp(1.15rem, 2.2vw, 1.5rem); }
-.text-xl  { font-size: clamp(1.02rem, 2vw, 1.25rem); }
-
-/* На вузьких екранах сітки автоматично стають 1 колонкою (Tailwind-подібно, але без правок HTML) */
-@media (max-width: 1024px) {
-  .lg\:grid-cols-2 { grid-template-columns: 1fr !important; }
-  .lg\:grid-cols-3 { grid-template-columns: 1fr !important; }
-  .lg\:grid-cols-4 { grid-template-columns: 1fr 1fr !important; }
-  .lg\:col-span-2 { grid-column: auto !important; }
-}
-
-/* На дуже вузьких — все в 1 колонку */
-@media (max-width: 640px) {
-  .grid-cols-2 { grid-template-columns: 1fr !important; }
-}
-   /* === Fit to short screens (height-based) === */
-@media (max-height: 750px) {
-  .slide { padding-top: 4.5rem !important; padding-bottom: 1.25rem !important; }
-}
-@media (max-height: 650px) {
-  .slide { padding-top: 4rem !important; }
-  .mb-16 { margin-bottom: 2.5rem !important; }
-  .mb-12 { margin-bottom: 2rem !important; }
-  .mb-10 { margin-bottom: 1.5rem !important; }
-}
-   /* =========================
-   MOBILE FIT (SAFE)
-   вставити в кінець <style>
-========================= */
-
-/* 1) Справжня висота екрану на мобільних (iOS address bar fix) */
-:root { --vh: 1vh; }
-html, body { height: 100%; }
-body { -webkit-text-size-adjust: 100%; }
-
-/* Замість "h-full" на iPhone – робимо реальну висоту */
-#app { height: calc(var(--vh) * 100); }
-
-/* Кожен слайд займає реальну висоту екрану */
-.slide { min-height: calc(var(--vh) * 100); }
-
-/* 2) Мобільні правки саме для малих екранів */
-@media (max-width: 640px) {
-
-  /* Верхні кнопки – компактніші */
-  #btn-prev, #btn-next {
-    padding: 0.65rem 0.9rem !important;
-    border-radius: 1rem !important;
-    font-size: 0.95rem !important;
-  }
-
-  /* Навігаційні доти справа – ховаємо (вони заважають) */
-  .fixed.right-6.top-1\/2 { display: none !important; }
-
-  /* Загальні внутрішні відступи слайдів – менші */
-  .slide { padding-left: 1rem !important; padding-right: 1rem !important; }
-
-  /* HERO (slide-0): піджимаємо вертикально, щоб все влазило */
-  #slide-0 { padding-top: 5.5rem !important; padding-bottom: 1.25rem !important; }
-
-  /* Великий заголовок UNIONIZE – адаптивний */
-  #slide-0 #main-title {
-    font-size: clamp(2.6rem, 10vw, 3.6rem) !important;
-    line-height: 1.02 !important;
-    margin-bottom: 0.75rem !important;
-  }
-
-  /* Підзаголовки – менші */
-  #slide-0 #subtitle { font-size: 1.1rem !important; margin-bottom: 0.5rem !important; }
-  #slide-0 .text-xl { font-size: 0.98rem !important; }
-
-  /* Довгий опис – компактніше */
-  #slide-0 .max-w-3xl { margin-bottom: 1rem !important; }
-
-  /* 3 бейджі-статистики – компактніше */
-  #slide-0 .glass-card { padding: 0.75rem 0.9rem !important; border-radius: 1.1rem !important; }
-  #slide-0 .glass-card .text-3xl { font-size: 1.6rem !important; line-height: 1 !important; }
-
-  /* Кнопка "Дізнатися більше" – нижче і менша */
-  #slide-0 button {
-    padding: 1rem 1.25rem !important;
-    border-radius: 1.1rem !important;
-    font-size: 1rem !important;
-  }
-
-  /* Плаваючі квадрати-іконки на Hero – ховаємо (на мобільному перекривають) */
-  #slide-0 .float-animation { display: none !important; }
-
-  /* Підказка "Прокрутіть вниз" – можна прибрати */
-  #slide-0 .animate-bounce { display: none !important; }
-}
-
-/* 3) Дуже низькі екрани: ще трохи піджимаємо відступи */
-@media (max-height: 700px) and (max-width: 640px) {
-  #slide-0 { padding-top: 5rem !important; }
-}
-   /* Slide 8: не різати фон по краях */
-#slide-7 { overflow: visible !important; }
-
-/* щоб не виліз горизонтальний скрол */
-#slide-7 { overflow-x: clip !important; }
-}
-
-/* активний слайд не має окремого внутрішнього скролу */
-.slide.active{
-  overflow: visible !important;
-}
+    @view-transition { navigation: auto; }
   </style>
-  <style>
-  /* === Global responsive slide fitting (safe, doesn't change text) === */
-  :root{
-    --topNav: 5.75rem; /* місце під кнопки Назад/Далі */
-    --sidePad: 2rem;
-  }
+</head>
 
-  /* На мобільних/сучасних браузерах краще dvh (динамічна висота) */
-  .slide{
-    height: 100dvh;
-    padding-top: calc(var(--topNav) + env(safe-area-inset-top));
-    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
-    padding-left: var(--sidePad);
-    padding-right: var(--sidePad);
-    overflow: hidden; /* загалом ховаємо */
-  }
-
-  .slide.active{ overflow: hidden; }
-
-  /* прибрати скролбар (естетика) */
-  .slide.active::-webkit-scrollbar{ width: 0; height: 0; }
-  .slide.active{ scrollbar-width: none; }
-
-  /* Трохи компактніше на телефонах */
-  @media (max-width: 640px){
-    :root{ --sidePad: 1.25rem; }
-
-    /* загальні типографічні "стиски" без правки тексту */
-    #main-title{ font-size: clamp(2.6rem, 10vw, 4.2rem) !important; line-height: 1.05 !important; }
-
-    /* часті заголовки */
-    .heading-font.text-6xl{ font-size: clamp(2.1rem, 8.5vw, 3.2rem) !important; line-height: 1.05 !important; }
-    .heading-font.text-5xl{ font-size: clamp(1.75rem, 7.2vw, 2.6rem) !important; line-height: 1.1 !important; }
-
-    /* великі тексти */
-    .text-2xl{ font-size: clamp(1.05rem, 4.2vw, 1.4rem) !important; }
-    .text-xl{  font-size: clamp(0.98rem, 3.8vw, 1.2rem) !important; }
-
-    /* відступи: легкий "компрес" */
-    .mb-16{ margin-bottom: 2rem !important; }
-    .mb-12{ margin-bottom: 2rem !important; }
-    .mb-10{ margin-bottom: 1.5rem !important; }
-  }
-
-  /* Низькі екрани (ноути/малий viewport по висоті) */
-  @media (max-height: 760px){
-    .mb-12{ margin-bottom: 2rem !important; }
-    .mb-10{ margin-bottom: 1.5rem !important; }
-    .p-8{ padding: 1.25rem !important; }
-    .p-7{ padding: 1.25rem !important; }
-  }
-   /* === FIT-TO-SCREEN (NO SCROLL) === */
-:root{ --topNav: 5.75rem; } /* місце під Назад/Далі */
-
-.slide{
-  height: 100dvh;              /* динамічна висота */
-  overflow: hidden !important; /* без скролу */
-  transform-origin: top center;
-}
-
-.slide.active{
-  transform: scale(var(--fitScale, 1));
-}
-
-/* на телефонах можна трохи зменшити верхній “air” */
-@media (max-width: 640px){
-  :root{ --topNav: 5.25rem; }
-}
-
-</style>
- <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full bg-slate-900 text-white overflow-x-hidden">
-  <div id="app" class="h-full w-full relative"><!-- Progress Bar -->
-   <div class="fixed top-0 left-0 right-0 h-1 bg-slate-800 z-50">
-    <div id="progress" class="progress-bar h-full bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500" style="width: 12.5%"></div>
-   </div><!-- Navigation Dots -->
-   <div class="fixed right-6 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-3"><button onclick="goToSlide(0)" class="nav-dot w-3 h-3 rounded-full bg-slate-600 active" data-slide="0"></button> <button onclick="goToSlide(1)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="1"></button> <button onclick="goToSlide(2)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="2"></button> <button onclick="goToSlide(3)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="3"></button> <button onclick="goToSlide(4)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="4"></button> <button onclick="goToSlide(5)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="5"></button> <button onclick="goToSlide(6)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="6"></button> <button onclick="goToSlide(7)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="7"></button> <button onclick="goToSlide(8)" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="8"></button>
-   </div>
-   <!-- Top Side Navigation -->
-<div class="fixed top-6 left-6 right-6 z-50 flex items-center justify-between pointer-events-none">
-  <button id="btn-prev"
-          onclick="prevSlide()"
-          class="pointer-events-auto group px-5 py-3 rounded-2xl bg-slate-800/70 border border-slate-700 hover:bg-slate-700/80 transition-all backdrop-blur flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
-    <span class="text-lg group-hover:-translate-x-0.5 transition-transform">←</span>
-    <span class="font-semibold">Назад</span>
-  </button>
-
-  <button id="btn-next"
-          onclick="nextSlide()"
-          class="pointer-events-auto group px-5 py-3 rounded-2xl bg-orange-500/90 border border-orange-400 hover:bg-orange-600 transition-all backdrop-blur flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
-    <span class="font-semibold">Далі</span>
-    <span class="text-lg group-hover:translate-x-0.5 transition-transform">→</span>
-  </button>
-</div>
-
-   <!-- Slide 1: Hero -->
-   <section id="slide-0" class="slide active h-full w-full flex-col items-center justify-center relative overflow-hidden px-8"><!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-10">
-     <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-orange-500 blur-3xl"></div>
-     <div class="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-yellow-500 blur-3xl"></div>
-     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-green-500 blur-3xl"></div>
-    </div><!-- Floating Elements -->
-    <div class="absolute top-32 left-24 float-animation stagger-1">
-     <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/30">
-      ✊
-     </div>
-    </div>
-    <div class="absolute top-48 right-32 float-animation stagger-2">
-     <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl shadow-lg shadow-green-500/30">
-      🎯
-     </div>
-    </div>
-    <div class="absolute bottom-40 left-32 float-animation stagger-3">
-     <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-lg shadow-lg shadow-blue-500/30">
-      🤝
-     </div>
-    </div>
-    <div class="absolute bottom-32 right-24 float-animation stagger-4">
-     <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl shadow-lg shadow-purple-500/30">
-      ⚖️
-     </div>
-    </div>
-    <div class="relative z-10 text-center max-w-5xl">
-     <div class="fade-in-up stagger-1 mb-4"><span class="inline-block px-6 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-semibold tracking-wider uppercase">Навчальна настільна гра</span>
-     </div>
-     <h1 id="main-title" class="fade-in-up stagger-2 heading-font text-8xl font-black mb-6 gradient-text tracking-tight">UNIONIZE</h1>
-     <p id="subtitle" class="fade-in-up stagger-3 text-2xl text-slate-300 mb-4 font-medium">Профспілкова настільна гра, що об'єднує</p>
-     <p class="fade-in-up stagger-4 text-xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">Інтерактивний інструмент для навчання захисту трудових прав, розвитку командної взаємодії та розуміння сили колективних дій</p>
-     <div class="fade-in-up stagger-5 flex items-center justify-center gap-6 mb-16">
-      <div class="px-8 py-4 rounded-2xl glass-card">
-       <div class="text-3xl font-bold text-orange-400">
-        200+
-       </div>
-       <div class="text-sm text-slate-400">
-        Ігрових карток
-       </div>
-      </div>
-      <div class="px-8 py-4 rounded-2xl glass-card">
-       <div class="text-3xl font-bold text-yellow-400">
-        2-6
-       </div>
-       <div class="text-sm text-slate-400">
-        Гравців
-       </div>
-      </div>
-      <div class="px-8 py-4 rounded-2xl glass-card">
-       <div class="text-3xl font-bold text-green-400">
-        60+
-       </div>
-       <div class="text-sm text-slate-400">
-        Хвилин гри
-       </div>
-      </div>
-     </div><button onclick="nextSlide()" class="fade-in-up stagger-6 group px-10 py-5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-2xl font-bold text-lg text-slate-900 hover:shadow-2xl hover:shadow-orange-500/40 transition-all duration-300 hover:scale-105"> Дізнатися більше <span class="inline-block ml-2 group-hover:translate-x-2 transition-transform">→</span> </button>
-    </div>
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 animate-bounce"><span class="text-sm">Прокрутіть вниз</span>
-     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-     </svg>
-    </div>
-   </section><!-- Slide 2: Problem & Vision -->
-   <section id="slide-1" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <div class="absolute inset-0 opacity-5">
-     <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-orange-500"></div>
-    </div>
-    <div class="relative z-10 max-w-6xl w-full">
-     <div class="text-center mb-12 fade-in-up"><span class="inline-block px-4 py-1 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 text-sm font-semibold mb-4">ПРОБЛЕМА</span>
-      <h2 class="heading-font text-5xl font-bold mb-6">Чому це важливо?</h2>
-     </div>
-     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-      <div class="fade-in-up stagger-1 p-8 rounded-3xl bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20">
-       <div class="w-16 h-16 rounded-2xl bg-red-500/20 flex items-center justify-center text-3xl mb-6">
-        😔
-       </div>
-       <h3 class="heading-font text-2xl font-bold mb-4 text-red-400">Проблема</h3>
-       <p class="text-slate-300 leading-relaxed text-lg">Більшість працівників <span class="text-white font-semibold">не знають своїх прав</span> і не розуміють, як профспілки можуть захистити їхні інтереси. Складна теорія та юридичні терміни відштовхують.</p>
-      </div>
-      <div class="fade-in-up stagger-2 p-8 rounded-3xl bg-gradient-to-br from-green-500/10 to-transparent border border-green-500/20">
-       <div class="w-16 h-16 rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl mb-6">
-        💡
-       </div>
-       <h3 class="heading-font text-2xl font-bold mb-4 text-green-400">Рішення</h3>
-       <p class="text-slate-300 leading-relaxed text-lg"><span class="text-white font-semibold">Unionize</span> — це шлях до знань через гру. Реальні ситуації, командні рішення та захоплюючий процес зроблять навчання ефективним і доступним для кожного.</p>
-      </div>
-     </div>
-     <div class="fade-in-up stagger-3 text-center p-8 rounded-3xl glass-card">
-      <p class="text-2xl text-slate-200 leading-relaxed italic">«Unionize — інструмент, що показує: знати свої права — це не просто слова, а <span class="text-orange-400 font-semibold">справжній спосіб захищати себе</span> і впливати на ситуацію»</p>
-     </div>
-   </section><!-- Slide 3: About the Game -->
-   <section id="slide-2" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <div class="absolute inset-0">
-     <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-orange-500/10 blur-3xl"></div>
-     <div class="absolute top-20 right-20 w-64 h-64 rounded-full bg-yellow-500/10 blur-3xl"></div>
-    </div>
-    <div class="relative z-10 max-w-6xl w-full">
-     <div class="text-center mb-12 fade-in-up"><span class="inline-block px-4 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-semibold mb-4">ПРО ГРУ</span>
-      <h2 class="heading-font text-5xl font-bold mb-6">Що таке Unionize?</h2>
-     </div>
-     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-      <div class="fade-in-up stagger-1 card-hover p-6 rounded-3xl bg-slate-800/50 border border-slate-700">
-       <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-orange-500/30">
-        🎲
-       </div>
-       <h3 class="heading-font text-xl font-bold mb-3">Грай</h3>
-       <p class="text-slate-400 leading-relaxed">Учасники зануряться в реальні виклики профспілкового життя через захопливу настільну гру з неочікуваними поворотами</p>
-      </div>
-      <div class="fade-in-up stagger-2 card-hover p-6 rounded-3xl bg-slate-800/50 border border-slate-700">
-       <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-green-500/30">
-        🧠
-       </div>
-       <h3 class="heading-font text-xl font-bold mb-3">Думай</h3>
-       <p class="text-slate-400 leading-relaxed">Учасники ухвалюватимуть стратегічні рішення, керуватимуть ресурсами та на практиці опановуватимуть захист прав працівників</p>
-      </div>
-      <div class="fade-in-up stagger-3 card-hover p-6 rounded-3xl bg-slate-800/50 border border-slate-700">
-       <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-blue-500/30">
-        💪
-       </div>
-       <h3 class="heading-font text-xl font-bold mb-3">Дій</h3>
-       <p class="text-slate-400 leading-relaxed">Учасники відчують силу командної роботи та зрозуміють, як колективні дії змінюють реальність</p>
-      </div>
-     </div>
-     <div class="fade-in-up stagger-4 p-8 rounded-3xl bg-gradient-to-r from-orange-500/10 via-yellow-500/10 to-green-500/10 border border-orange-500/20">
-      <div class="flex flex-col lg:flex-row items-center gap-8">
-       <div class="flex-1">
-        <h3 class="heading-font text-2xl font-bold mb-4">Справжня сила — в єдності</h3>
-        <p class="text-slate-300 leading-relaxed text-lg mb-4">Учасники відчують силу командної роботи та зрозуміють, як колективні дії змінюють реальність</p>
-        <p class="text-orange-400 font-semibold text-xl">Разом — ми сила! 💪</p>
-       </div>
-       <div class="w-48 h-48 rounded-3xl rotating-border p-1">
-        <div class="w-full h-full rounded-3xl bg-slate-900 flex items-center justify-center"><span class="text-7xl">🤝</span>
-    </div>
-   </section><!-- Slide 4: Game Goals -->
-   <section id="slide-3" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <div class="absolute inset-0 opacity-10">
-     <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-yellow-500 blur-3xl"></div>
-    </div>
-    <div class="relative z-10 max-w-6xl w-full">
-     <div class="text-center mb-12 fade-in-up"><span class="inline-block px-4 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/30 text-yellow-400 text-sm font-semibold mb-4">ЦІЛІ</span>
-      <h2 class="heading-font text-5xl font-bold mb-4">Мета гри</h2>
-      <p class="text-slate-400 text-xl max-w-2xl mx-auto">Три ключові напрямки, які робять Unionize унікальним освітнім інструментом</p>
-     </div>
-     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="fade-in-up stagger-1 card-hover relative">
-       <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-xl font-bold shadow-lg">
-        01
-       </div>
-       <div class="p-8 pt-10 rounded-3xl bg-slate-800/70 border border-slate-700 h-full">
-        <div class="text-4xl mb-6">
-         📚
-        </div>
-        <h3 class="heading-font text-2xl font-bold mb-4 text-orange-400">Навчання через гру</h3>
-        <p class="text-slate-300 leading-relaxed">Зрозуміти основні принципи роботи профспілки в інтерактивному та захоплюючому форматі. Вивчити трудове законодавство без нудних лекцій.</p>
-        <ul class="mt-4 space-y-2 text-slate-400">
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Реальні кейси</li>
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Актуальне законодавство</li>
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Практичні навички</li>
-        </ul>
-       </div>
-      </div>
-      <div class="fade-in-up stagger-2 card-hover relative">
-       <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl font-bold shadow-lg">
-        02
-       </div>
-       <div class="p-8 pt-10 rounded-3xl bg-slate-800/70 border border-slate-700 h-full">
-        <div class="text-4xl mb-6">
-         🤝
-        </div>
-        <h3 class="heading-font text-2xl font-bold mb-4 text-green-400">Командна робота</h3>
-        <p class="text-slate-300 leading-relaxed">Сприяти розумінню важливості співпраці, переговорів та колективних дій для досягнення спільних цілей.</p>
-        <ul class="mt-4 space-y-2 text-slate-400">
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Колективні рішення</li>
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Переговори</li>
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Взаємопідтримка</li>
-        </ul>
-       </div>
-      </div>
-      <div class="fade-in-up stagger-3 card-hover relative">
-       <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-xl font-bold shadow-lg">
-        03
-       </div>
-       <div class="p-8 pt-10 rounded-3xl bg-slate-800/70 border border-slate-700 h-full">
-        <div class="text-4xl mb-6">
-         🏆
-        </div>
-        <h3 class="heading-font text-2xl font-bold mb-4 text-blue-400">Стратегічна перемога</h3>
-        <p class="text-slate-300 leading-relaxed">Набрати найбільшу кількість балів через ефективне управління ресурсами та розвиток профспілкової організації.</p>
-        <ul class="mt-4 space-y-2 text-slate-400">
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Управління ресурсами</li>
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Стратегічне планування</li>
-         <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Вирішення криз</li>
-        </ul>
-   </div>
-   </section><!-- Slide 5: Game Components -->
-   <section id="slide-4" class="slide h-full w-full flex-col items-center justify-center px-8 relative overflow-hidden">
-    <div class="absolute inset-0">
-     <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-orange-500 via-transparent to-transparent"></div>
-    </div>
-    <div class="relative z-10 max-w-6xl w-full">
-     <div class="text-center mb-10 fade-in-up"><span class="inline-block px-4 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 text-sm font-semibold mb-4">КОМПОНЕНТИ</span>
-      <h2 class="heading-font text-5xl font-bold mb-4">Що входить до гри?</h2>
-     </div>
-     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div class="fade-in-up stagger-1 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
-       <div class="w-16 h-16 mx-auto rounded-2xl bg-orange-500/20 flex items-center justify-center text-3xl mb-4">
-        🗺️
-       </div>
-       <h4 class="heading-font font-bold text-lg mb-2">Ігрове поле</h4>
-       <p class="text-slate-400 text-sm">Старт, ППО, Події, Кризи, Бонуси</p>
-      </div>
-      <div class="fade-in-up stagger-2 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
-       <div class="w-16 h-16 mx-auto rounded-2xl bg-yellow-500/20 flex items-center justify-center text-3xl mb-4">
-        🃏
-       </div>
-       <h4 class="heading-font font-bold text-lg mb-2">200+ карток</h4>
-       <p class="text-slate-400 text-sm">Події, ресурси, кризи та бонуси</p>
-      </div>
-      <div class="fade-in-up stagger-3 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
-       <div class="w-16 h-16 mx-auto rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl mb-4">
-        💰
-       </div>
-       <h4 class="heading-font font-bold text-lg mb-2">UnionCoin</h4>
-       <p class="text-slate-400 text-sm">Ігрова валюта та ресурси</p>
-      </div>
-      <div class="fade-in-up stagger-4 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
-       <div class="w-16 h-16 mx-auto rounded-2xl bg-blue-500/20 flex items-center justify-center text-3xl mb-4">
-        📖
-       </div>
-       <h4 class="heading-font font-bold text-lg mb-2">Правила</h4>
-       <p class="text-slate-400 text-sm">Коротка та розширена версії</p>
-      </div>
-     </div>
-     <div class="fade-in-up stagger-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div class="p-6 rounded-2xl glass-card">
-       <h4 class="heading-font text-xl font-bold mb-4 flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">⚖️</span> Юридична база</h4>
-       <p class="text-slate-300 leading-relaxed">Для створення карток буде проаналізовано <span class="text-orange-400 font-semibold">актуальне трудове законодавство України</span>, реальні колективні договори та справжні кейси з профспілкової практики.</p>
-      </div>
-      <div class="p-6 rounded-2xl glass-card">
-       <h4 class="heading-font text-xl font-bold mb-4 flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">🌐</span> Веб-платформа</h4>
-       <p class="text-slate-300 leading-relaxed">Додатковий <span class="text-green-400 font-semibold">лендінг-сайт</span> як цифрове доповнення до гри з правилами, описом та FAQ.</p>
-   </div>
-   </section><!-- Slide 6: Development Process -->
-   <section id="slide-5" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <div class="relative z-10 max-w-6xl w-full">
-     <div class="text-center mb-10 fade-in-up"><span class="inline-block px-4 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-sm font-semibold mb-4">РОЗРОБКА</span>
-      <h2 class="heading-font text-5xl font-bold mb-4">Як ми створюємо гру?</h2>
-      <p class="text-slate-400 text-lg">Професійний підхід до кожного етапу розробки</p>
-     </div>
-     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div class="fade-in-up stagger-1 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-xl flex-shrink-0">
-         🎮
-        </div>
-        <div>
-         <h4 class="heading-font text-lg font-bold mb-2">Геймдизайн</h4>
-         <p class="text-slate-400 text-sm leading-relaxed">Механіки, правила, Game Design Document. Фіналізація логіки, структури ходів, сценаріїв та edge-cases.</p>
-        </div>
-       </div>
-      </div>
-      <div class="fade-in-up stagger-2 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-xl flex-shrink-0">
-         ⚖️
-        </div>
-        <div>
-         <h4 class="heading-font text-lg font-bold mb-2">Економіка та баланс</h4>
-         <p class="text-slate-400 text-sm leading-relaxed">Модель UnionCoin, частоти карт, штрафи/бонуси, анти-домінантні стратегії та симуляції.</p>
-        </div>
-       </div>
-      </div>
-      <div class="fade-in-up stagger-3 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl flex-shrink-0">
-         ✍️
-        </div>
-        <div>
-         <h4 class="heading-font text-lg font-bold mb-2">Контент 200+ карток</h4>
-         <p class="text-slate-400 text-sm leading-relaxed">Написання/редактура текстів, юридична та освітня коректність, уніфікація стилю.</p>
-        </div>
-       </div>
-      </div>
-      <div class="fade-in-up stagger-4 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-xl flex-shrink-0">
-         🧪
-        </div>
-        <div>
-         <h4 class="heading-font text-lg font-bold mb-2">Плейтести</h4>
-         <p class="text-slate-400 text-sm leading-relaxed">Модерація ігрових сесій, збір зворотного зв'язку, ітеративні правки для ідеального балансу.</p>
-        </div>
-       </div>
-      </div>
-      <div class="fade-in-up stagger-5 p-6 rounded-2xl bg-slate-800/50 border border-slate-700 lg:col-span-2">
-       <div class="flex items-start gap-4">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl flex-shrink-0">
-         🎨
-        </div>
-        <div>
-         <h4 class="heading-font text-lg font-bold mb-2">Графічний дизайн</h4>
-         <p class="text-slate-400 text-sm leading-relaxed">Професійні макети ігрового поля, коробки, карток, валюти та всіх візуальних елементів. Модульні сітки та унікальний візуальний стиль.</p>
-     </div>
-   </section>
-   <!-- Slide 7: Impact & Rights Protection -->
-   <section id="slide-6" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <div class="absolute inset-0 opacity-10">
-     <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-green-500 blur-3xl"></div>
-    </div>
-    <div class="relative z-10 max-w-6xl w-full">
-     <div class="text-center mb-10 fade-in-up"><span class="inline-block px-4 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold mb-4">ВПЛИВ</span>
-      <h2 class="heading-font text-5xl font-bold mb-4">Захист прав працівників</h2>
-      <p class="text-slate-400 text-lg max-w-2xl mx-auto">Unionize — це більше ніж гра. Це інструмент соціальних змін.</p>
-     </div>
-     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-      <div class="fade-in-up stagger-1 p-8 rounded-3xl bg-gradient-to-br from-green-500/10 to-transparent border border-green-500/20">
-       <h3 class="heading-font text-2xl font-bold mb-6 text-green-400">Чому захист прав важливий?</h3>
-       <ul class="space-y-4">
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span> <p class="text-slate-300">Свідомі працівники краще знають свої права</p></li>
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span> <p class="text-slate-300">Знання законодавства — запорука справедливості</p></li>
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span> <p class="text-slate-300">Колективна дія ефективніша за індивідуальну</p></li>
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span> <p class="text-slate-300">Профспілки — перевірений механізм захисту</p></li>
-       </ul>
-      </div>
-      <div class="fade-in-up stagger-2 p-8 rounded-3xl bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/20">
-       <h3 class="heading-font text-2xl font-bold mb-6 text-orange-400">Що дає гра?</h3>
-       <ul class="space-y-4">
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">📋</span> <p class="text-slate-300">Базове розуміння трудового законодавства</p></li>
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">🤝</span> <p class="text-slate-300">Навички переговорів та комунікації</p></li>
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">💡</span> <p class="text-slate-300">Досвід вирішення реальних кризових ситуацій</p></li>
-        <li class="flex items-start gap-4"><span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">🔥</span> <p class="text-slate-300">Мотивацію до активної громадянської позиції</p></li>
-       </ul>
-      </div>
-     </div>
-         <div class="fade-in-up stagger-3 text-center p-6 rounded-2xl glass-card">
-      <p class="text-xl text-slate-200 italic">«Гра допоможе розібратися, як захистити працівників, навчить відповідальності за свої рішення і покаже, що <span class="text-green-400 font-semibold">разом легше долати труднощі</span>»</p>
-     </div>
-    </div>
-   </section><!-- Slide 8: Переваги гри -->
-   <section id="slide-7" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <!-- Background -->
-    <div class="absolute inset-0">
-     <div class="absolute inset-0 bg-gradient-to-br from-orange-500/15 via-transparent to-green-500/15 opacity-40"></div>
-     <div class="absolute -top-24 -left-24 w-[520px] h-[520px] rounded-full bg-orange-500/10 blur-3xl"></div>
-     <div class="absolute -bottom-24 -right-24 w-[620px] h-[620px] rounded-full bg-yellow-500/10 blur-3xl"></div>
-     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-green-500/10 blur-3xl"></div>
+<body class="h-full bg-slate-900 text-white overflow-x-hidden">
+  <div id="app" class="h-full w-full relative overflow-hidden">
+    <!-- Progress -->
+    <div class="fixed top-0 left-0 right-0 h-1 bg-slate-800 z-50">
+      <div id="progress" class="progress-bar h-full bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-500" style="width: 12.5%"></div>
     </div>
 
-    <div class="relative z-10 max-w-6xl w-full">
-     <!-- Header -->
-     <div class="text-center mb-10 fade-in-up">
-      <span class="inline-block px-5 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-semibold tracking-wider uppercase">Переваги гри</span>
-      <h2 class="heading-font text-5xl font-black mt-5 mb-4">Що дає Unionize учасникам</h2>
-      <p class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
-       Не просто “пограли і розійшлися” — гра формує навички, які залишаються: мислення, взаємодія, впевненість, готовність діяти.
-      </p>
-     </div>
-     
-     <!-- Grid -->
-     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Card 1 -->
-      <div class="fade-in-up stagger-1 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
-       <div class="absolute top-0 right-0 w-40 h-40 bg-orange-500/10 blur-2xl rounded-full"></div>
-       <div class="flex items-start gap-4 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/30">🎓</div>
-        <div class="flex-1">
-         <h3 class="heading-font text-xl font-bold">Навчання без “сухої теорії”</h3>
-         <p class="text-slate-400 text-sm mt-1">Знання засвоюються через дію, а не через лекції.</p>
-        </div>
-       </div>
-       <ul class="space-y-3 text-slate-300">
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-orange-500/20 flex items-center justify-center">✓</span><p>Практичне розуміння прав через ситуації та рішення.</p></li>
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-orange-500/20 flex items-center justify-center">✓</span><p>Мінімум “канцеляриту” — максимум ясності.</p></li>
-       </ul>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="fade-in-up stagger-2 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
-       <div class="absolute top-0 right-0 w-40 h-40 bg-green-500/10 blur-2xl rounded-full"></div>
-       <div class="flex items-start gap-4 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl shadow-lg shadow-green-500/30">🧠</div>
-        <div class="flex-1">
-         <h3 class="heading-font text-xl font-bold">Навички мислення й рішень</h3>
-         <p class="text-slate-400 text-sm mt-1">Гра тренує логіку, пріоритизацію та відповідальність.</p>
-        </div>
-       </div>
-       <ul class="space-y-3 text-slate-300">
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-green-500/20 flex items-center justify-center">✓</span><p>Де ризик, а де можливість — видно одразу в механіці.</p></li>
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-green-500/20 flex items-center justify-center">✓</span><p>Прокачує стратегічне мислення через ресурси та вибір.</p></li>
-       </ul>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="fade-in-up stagger-3 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
-       <div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 blur-2xl rounded-full"></div>
-       <div class="flex items-start gap-4 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl shadow-lg shadow-blue-500/30">🤝</div>
-        <div class="flex-1">
-         <h3 class="heading-font text-xl font-bold">Командність і довіра</h3>
-         <p class="text-slate-400 text-sm mt-1">Люди вчаться домовлятися та діяти разом.</p>
-        </div>
-       </div>
-       <ul class="space-y-3 text-slate-300">
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-blue-500/20 flex items-center justify-center">✓</span><p>Формує культуру взаємопідтримки, а не “кожен сам”.</p></li>
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-blue-500/20 flex items-center justify-center">✓</span><p>Показує силу колективних рішень у складних ситуаціях.</p></li>
-       </ul>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="fade-in-up stagger-4 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
-       <div class="absolute top-0 right-0 w-40 h-40 bg-purple-500/10 blur-2xl rounded-full"></div>
-       <div class="flex items-start gap-4 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30">🛡️</div>
-        <div class="flex-1">
-         <h3 class="heading-font text-xl font-bold">Впевненість і “внутрішня опора”</h3>
-         <p class="text-slate-400 text-sm mt-1">Людина виходить із відчуттям “я знаю, що робити”.</p>
-        </div>
-       </div>
-       <ul class="space-y-3 text-slate-300">
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-purple-500/20 flex items-center justify-center">✓</span><p>Зменшує страх перед конфліктами й несправедливістю.</p></li>
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-purple-500/20 flex items-center justify-center">✓</span><p>Підсилює культуру правової обізнаності “в дії”.</p></li>
-       </ul>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="fade-in-up stagger-5 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
-       <div class="absolute top-0 right-0 w-40 h-40 bg-yellow-500/10 blur-2xl rounded-full"></div>
-       <div class="flex items-start gap-4 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-2xl shadow-lg shadow-yellow-500/30">🌱</div>
-        <div class="flex-1">
-         <h3 class="heading-font text-xl font-bold">Залучення молоді</h3>
-         <p class="text-slate-400 text-sm mt-1">Гра говорить із молоддю їхньою мовою: інтерактивно й чесно.</p>
-        </div>
-       </div>
-       <ul class="space-y-3 text-slate-300">
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-yellow-500/20 flex items-center justify-center">✓</span><p>Формує лідерство та інтерес до спільних дій.</p></li>
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-yellow-500/20 flex items-center justify-center">✓</span><p>Робить профспілку “живою” і зрозумілою, без стереотипів.</p></li>
-       </ul>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="fade-in-up stagger-6 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
-       <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 blur-2xl rounded-full"></div>
-       <div class="flex items-start gap-4 mb-4">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/30">📣</div>
-        <div class="flex-1">
-         <h3 class="heading-font text-xl font-bold">Комунікація та репутація</h3>
-         <p class="text-slate-400 text-sm mt-1">Unionize легко показати, пояснити й “дати відчути”.</p>
-        </div>
-       </div>
-       <ul class="space-y-3 text-slate-300">
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-emerald-500/20 flex items-center justify-center">✓</span><p>Працює як інструмент подій, навчань і презентацій.</p></li>
-        <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-emerald-500/20 flex items-center justify-center">✓</span><p>Створює досвід, який люди хочуть повторити й поширити.</p></li>
-       </ul>
-      </div>
-     </div>
-   </section><!-- Slide 9: Call to Action -->
-   <section id="slide-8" class="slide h-full w-full flex-col items-center justify-center px-8 relative">
-    <div class="absolute inset-0">
-     <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-transparent to-green-500/20 opacity-30"></div>
-     <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-orange-500/10 blur-3xl"></div>
-     <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-green-500/10 blur-3xl"></div>
+    <!-- Navigation Dots -->
+    <div class="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600 active" data-slide="0" aria-label="Слайд 1"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="1" aria-label="Слайд 2"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="2" aria-label="Слайд 3"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="3" aria-label="Слайд 4"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="4" aria-label="Слайд 5"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="5" aria-label="Слайд 6"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="6" aria-label="Слайд 7"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="7" aria-label="Слайд 8"></button>
+      <button type="button" class="nav-dot w-3 h-3 rounded-full bg-slate-600" data-slide="8" aria-label="Слайд 9"></button>
     </div>
-    <div class="relative z-10 text-center max-w-4xl">
-     <div class="fade-in-up stagger-1 mb-8"><span class="inline-block px-6 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 font-semibold">ЗАПРОШУЄМО ДО ПАРТНЕРСТВА</span>
-     </div>
-     <h2 class="fade-in-up stagger-2 heading-font text-6xl font-black mb-6">Інвестуйте в <span class="gradient-text">зміни</span></h2>
-     <p class="fade-in-up stagger-3 text-2xl text-slate-300 mb-8 leading-relaxed">Ваша підтримка допоможе створити унікальний освітній інструмент, який змінить розуміння прав для тисяч працівників.</p>
-     <div class="fade-in-up stagger-4 grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-      <div class="p-6 rounded-2xl glass-card">
-       <div class="text-4xl mb-4">🎯</div>
-       <h4 class="heading-font font-bold text-lg mb-2">Соціальний вплив</h4>
-       <p class="text-slate-400 text-sm">Реальна зміна у свідомості працівників щодо їхніх прав</p>
-      </div>
-      <div class="p-6 rounded-2xl glass-card">
-       <div class="text-4xl mb-4">📈</div>
-       <h4 class="heading-font font-bold text-lg mb-2">Масштабування</h4>
-       <p class="text-slate-400 text-sm">Потенціал розповсюдження на всю Україну та далі</p>
-      </div>
-      <div class="p-6 rounded-2xl glass-card">
-       <div class="text-4xl mb-4">🏆</div>
-       <h4 class="heading-font font-bold text-lg mb-2">Визнання</h4>
-       <p class="text-slate-400 text-sm">Ваш внесок буде відзначено як партнера проєкту</p>
-      </div>
-     </div>
-     <div class="fade-in-up stagger-5 flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-      <div class="pulse-glow px-10 py-5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-2xl font-bold text-xl text-slate-900">
-       Приєднуйтесь до Unionize! 💪
-      </div>
-     </div>
-     <p class="fade-in-up stagger-6 text-xl text-orange-400 font-semibold heading-font">Грай. Думай. Дій. Разом — ми сила!</p>
+
+    <!-- Top Side Navigation -->
+    <div class="fixed top-6 left-6 right-6 z-50 flex items-center justify-between pointer-events-none">
+      <button id="btn-prev" type="button"
+        class="pointer-events-auto group px-5 py-3 rounded-2xl bg-slate-800/70 border border-slate-700 hover:bg-slate-700/80 transition-all backdrop-blur flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+        aria-label="Назад">
+        <span class="text-lg group-hover:-translate-x-0.5 transition-transform">←</span>
+        <span class="font-semibold">Назад</span>
+      </button>
+
+      <button id="btn-next" type="button"
+        class="pointer-events-auto group px-5 py-3 rounded-2xl bg-orange-500/90 border border-orange-400 hover:bg-orange-600 transition-all backdrop-blur flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+        aria-label="Далі">
+        <span class="font-semibold">Далі</span>
+        <span class="text-lg group-hover:translate-x-0.5 transition-transform">→</span>
+      </button>
     </div>
-   </section>
-        
+
+    <!-- Slides -->
+    <section id="slide-0" class="slide active flex-col items-center justify-center relative overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-orange-500 blur-3xl"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-yellow-500 blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-green-500 blur-3xl"></div>
+      </div>
+
+      <!-- Floating Elements -->
+      <div class="absolute top-32 left-24 float-animation stagger-1">
+        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/30">✊</div>
+      </div>
+      <div class="absolute top-48 right-32 float-animation stagger-2">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl shadow-lg shadow-green-500/30">🎯</div>
+      </div>
+      <div class="absolute bottom-40 left-32 float-animation stagger-3">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-lg shadow-lg shadow-blue-500/30">🤝</div>
+      </div>
+      <div class="absolute bottom-32 right-24 float-animation stagger-4">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl shadow-lg shadow-purple-500/30">⚖️</div>
+      </div>
+
+      <div class="relative z-10 text-center max-w-5xl">
+        <div class="fade-in-up stagger-1 mb-4">
+          <span class="inline-block px-6 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-semibold tracking-wider uppercase">
+            Навчальна настільна гра
+          </span>
+        </div>
+
+        <h1 id="main-title" class="fade-in-up stagger-2 heading-font text-8xl font-black mb-6 gradient-text tracking-tight">
+          UNIONIZE
+        </h1>
+
+        <p id="subtitle" class="fade-in-up stagger-3 text-2xl text-slate-300 mb-4 font-medium">
+          Профспілкова настільна гра, що об'єднує
+        </p>
+
+        <p class="fade-in-up stagger-4 text-xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+          Інтерактивний інструмент для навчання захисту трудових прав, розвитку командної взаємодії та розуміння сили колективних дій
+        </p>
+
+        <div class="fade-in-up stagger-5 flex items-center justify-center gap-6 mb-16">
+          <div class="px-8 py-4 rounded-2xl glass-card">
+            <div class="text-3xl font-bold text-orange-400">200+</div>
+            <div class="text-sm text-slate-400">Ігрових карток</div>
+          </div>
+          <div class="px-8 py-4 rounded-2xl glass-card">
+            <div class="text-3xl font-bold text-yellow-400">2-6</div>
+            <div class="text-sm text-slate-400">Гравців</div>
+          </div>
+          <div class="px-8 py-4 rounded-2xl glass-card">
+            <div class="text-3xl font-bold text-green-400">60+</div>
+            <div class="text-sm text-slate-400">Хвилин гри</div>
+          </div>
+        </div>
+
+        <button id="btn-cta" type="button"
+          class="fade-in-up stagger-6 group px-10 py-5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-2xl font-bold text-lg text-slate-900 hover:shadow-2xl hover:shadow-orange-500/40 transition-all duration-300 hover:scale-105">
+          Дізнатися більше <span class="inline-block ml-2 group-hover:translate-x-2 transition-transform">→</span>
+        </button>
+      </div>
+
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 animate-bounce">
+        <span class="text-sm">Прокрутіть вниз</span>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Slide 2: Problem & Vision -->
+    <section id="slide-1" class="slide flex-col items-center justify-center relative">
+      <div class="absolute inset-0 opacity-5">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-orange-500"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-12 fade-in-up">
+          <span class="inline-block px-4 py-1 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 text-sm font-semibold mb-4">ПРОБЛЕМА</span>
+          <h2 class="heading-font text-5xl font-bold mb-6">Чому це важливо?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div class="fade-in-up stagger-1 p-8 rounded-3xl bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20">
+            <div class="w-16 h-16 rounded-2xl bg-red-500/20 flex items-center justify-center text-3xl mb-6">😔</div>
+            <h3 class="heading-font text-2xl font-bold mb-4 text-red-400">Проблема</h3>
+            <p class="text-slate-300 leading-relaxed text-lg">
+              Більшість працівників <span class="text-white font-semibold">не знають своїх прав</span> і не розуміють,
+              як профспілки можуть захистити їхні інтереси. Складна теорія та юридичні терміни відштовхують.
+            </p>
+          </div>
+
+          <div class="fade-in-up stagger-2 p-8 rounded-3xl bg-gradient-to-br from-green-500/10 to-transparent border border-green-500/20">
+            <div class="w-16 h-16 rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl mb-6">💡</div>
+            <h3 class="heading-font text-2xl font-bold mb-4 text-green-400">Рішення</h3>
+            <p class="text-slate-300 leading-relaxed text-lg">
+              <span class="text-white font-semibold">Unionize</span> — це шлях до знань через гру.
+              Реальні ситуації, командні рішення та захоплюючий процес зроблять навчання ефективним і доступним для кожного.
+            </p>
+          </div>
+        </div>
+
+        <div class="fade-in-up stagger-3 text-center p-8 rounded-3xl glass-card">
+          <p class="text-2xl text-slate-200 leading-relaxed italic">
+            «Unionize — інструмент, що показує: знати свої права — це не просто слова, а
+            <span class="text-orange-400 font-semibold">справжній спосіб захищати себе</span> і впливати на ситуацію»
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: About the Game -->
+    <section id="slide-2" class="slide flex-col items-center justify-center relative">
+      <div class="absolute inset-0">
+        <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-orange-500/10 blur-3xl"></div>
+        <div class="absolute top-20 right-20 w-64 h-64 rounded-full bg-yellow-500/10 blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-12 fade-in-up">
+          <span class="inline-block px-4 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-semibold mb-4">ПРО ГРУ</span>
+          <h2 class="heading-font text-5xl font-bold mb-6">Що таке Unionize?</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+          <div class="fade-in-up stagger-1 card-hover p-6 rounded-3xl bg-slate-800/50 border border-slate-700">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-orange-500/30">🎲</div>
+            <h3 class="heading-font text-xl font-bold mb-3">Грай</h3>
+            <p class="text-slate-400 leading-relaxed">Учасники зануряться в реальні виклики профспілкового життя через захопливу настільну гру з неочікуваними поворотами</p>
+          </div>
+
+          <div class="fade-in-up stagger-2 card-hover p-6 rounded-3xl bg-slate-800/50 border border-slate-700">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-green-500/30">🧠</div>
+            <h3 class="heading-font text-xl font-bold mb-3">Думай</h3>
+            <p class="text-slate-400 leading-relaxed">Учасники ухвалюватимуть стратегічні рішення, керуватимуть ресурсами та на практиці опановуватимуть захист прав працівників</p>
+          </div>
+
+          <div class="fade-in-up stagger-3 card-hover p-6 rounded-3xl bg-slate-800/50 border border-slate-700">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-blue-500/30">💪</div>
+            <h3 class="heading-font text-xl font-bold mb-3">Дій</h3>
+            <p class="text-slate-400 leading-relaxed">Учасники відчують силу командної роботи та зрозуміють, як колективні дії змінюють реальність</p>
+          </div>
+        </div>
+
+        <div class="fade-in-up stagger-4 p-8 rounded-3xl bg-gradient-to-r from-orange-500/10 via-yellow-500/10 to-green-500/10 border border-orange-500/20">
+          <div class="flex flex-col lg:flex-row items-center gap-8">
+            <div class="flex-1">
+              <h3 class="heading-font text-2xl font-bold mb-4">Справжня сила — в єдності</h3>
+              <p class="text-slate-300 leading-relaxed text-lg mb-4">Учасники відчують силу командної роботи та зрозуміють, як колективні дії змінюють реальність</p>
+              <p class="text-orange-400 font-semibold text-xl">Разом — ми сила! 💪</p>
+            </div>
+
+            <div class="w-48 h-48 rounded-3xl rotating-border p-1">
+              <div class="w-full h-full rounded-3xl bg-slate-900 flex items-center justify-center">
+                <span class="text-7xl">🤝</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+       <!-- Slide 4: Game Goals -->
+    <section id="slide-3" class="slide flex-col items-center justify-center relative">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-yellow-500 blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-12 fade-in-up">
+          <span class="inline-block px-4 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/30 text-yellow-400 text-sm font-semibold mb-4">ЦІЛІ</span>
+          <h2 class="heading-font text-5xl font-bold mb-4">Мета гри</h2>
+          <p class="text-slate-400 text-xl max-w-2xl mx-auto">Три ключові напрямки, які роблять Unionize унікальним освітнім інструментом</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="fade-in-up stagger-1 card-hover relative">
+            <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-xl font-bold shadow-lg">01</div>
+            <div class="p-8 pt-10 rounded-3xl bg-slate-800/70 border border-slate-700 h-full">
+              <div class="text-4xl mb-6">📚</div>
+              <h3 class="heading-font text-2xl font-bold mb-4 text-orange-400">Навчання через гру</h3>
+              <p class="text-slate-300 leading-relaxed">Зрозуміти основні принципи роботи профспілки в інтерактивному та захоплюючому форматі. Вивчити трудове законодавство без нудних лекцій.</p>
+              <ul class="mt-4 space-y-2 text-slate-400">
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Реальні кейси</li>
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Актуальне законодавство</li>
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Практичні навички</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="fade-in-up stagger-2 card-hover relative">
+            <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl font-bold shadow-lg">02</div>
+            <div class="p-8 pt-10 rounded-3xl bg-slate-800/70 border border-slate-700 h-full">
+              <div class="text-4xl mb-6">🤝</div>
+              <h3 class="heading-font text-2xl font-bold mb-4 text-green-400">Командна робота</h3>
+              <p class="text-slate-300 leading-relaxed">Сприяти розумінню важливості співпраці, переговорів та колективних дій для досягнення спільних цілей.</p>
+              <ul class="mt-4 space-y-2 text-slate-400">
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Колективні рішення</li>
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Переговори</li>
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Взаємопідтримка</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="fade-in-up stagger-3 card-hover relative">
+            <div class="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-xl font-bold shadow-lg">03</div>
+            <div class="p-8 pt-10 rounded-3xl bg-slate-800/70 border border-slate-700 h-full">
+              <div class="text-4xl mb-6">🏆</div>
+              <h3 class="heading-font text-2xl font-bold mb-4 text-blue-400">Стратегічна перемога</h3>
+              <p class="text-slate-300 leading-relaxed">Набрати найбільшу кількість балів через ефективне управління ресурсами та розвиток профспілкової організації.</p>
+              <ul class="mt-4 space-y-2 text-slate-400">
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Управління ресурсами</li>
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Стратегічне планування</li>
+                <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Вирішення криз</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Game Components -->
+    <section id="slide-4" class="slide flex-col items-center justify-center relative overflow-hidden">
+      <div class="absolute inset-0">
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-orange-500 via-transparent to-transparent"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-10 fade-in-up">
+          <span class="inline-block px-4 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 text-sm font-semibold mb-4">КОМПОНЕНТИ</span>
+          <h2 class="heading-font text-5xl font-bold mb-4">Що входить до гри?</h2>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="fade-in-up stagger-1 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-orange-500/20 flex items-center justify-center text-3xl mb-4">🗺️</div>
+            <h4 class="heading-font font-bold text-lg mb-2">Ігрове поле</h4>
+            <p class="text-slate-400 text-sm">Старт, ППО, Події, Кризи, Бонуси</p>
+          </div>
+
+          <div class="fade-in-up stagger-2 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-yellow-500/20 flex items-center justify-center text-3xl mb-4">🃏</div>
+            <h4 class="heading-font font-bold text-lg mb-2">200+ карток</h4>
+            <p class="text-slate-400 text-sm">Події, ресурси, кризи та бонуси</p>
+          </div>
+
+          <div class="fade-in-up stagger-3 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl mb-4">💰</div>
+            <h4 class="heading-font font-bold text-lg mb-2">UnionCoin</h4>
+            <p class="text-slate-400 text-sm">Ігрова валюта та ресурси</p>
+          </div>
+
+          <div class="fade-in-up stagger-4 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-blue-500/20 flex items-center justify-center text-3xl mb-4">📖</div>
+            <h4 class="heading-font font-bold text-lg mb-2">Правила</h4>
+            <p class="text-slate-400 text-sm">Коротка та розширена версії</p>
+          </div>
+        </div>
+
+        <div class="fade-in-up stagger-5 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="p-6 rounded-2xl glass-card">
+            <h4 class="heading-font text-xl font-bold mb-4 flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">⚖️</span> Юридична база
+            </h4>
+            <p class="text-slate-300 leading-relaxed">
+              Для створення карток буде проаналізовано <span class="text-orange-400 font-semibold">актуальне трудове законодавство України</span>,
+              реальні колективні договори та справжні кейси з профспілкової практики.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl glass-card">
+            <h4 class="heading-font text-xl font-bold mb-4 flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">🌐</span> Веб-платформа
+            </h4>
+            <p class="text-slate-300 leading-relaxed">
+              Додатковий <span class="text-green-400 font-semibold">лендінг-сайт</span> як цифрове доповнення до гри з правилами, описом та FAQ.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Development Process -->
+    <section id="slide-5" class="slide flex-col items-center justify-center relative">
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-10 fade-in-up">
+          <span class="inline-block px-4 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-sm font-semibold mb-4">РОЗРОБКА</span>
+          <h2 class="heading-font text-5xl font-bold mb-4">Як ми створюємо гру?</h2>
+          <p class="text-slate-400 text-lg">Професійний підхід до кожного етапу розробки</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="fade-in-up stagger-1 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-xl flex-shrink-0">🎮</div>
+              <div>
+                <h4 class="heading-font text-lg font-bold mb-2">Геймдизайн</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Механіки, правила, Game Design Document. Фіналізація логіки, структури ходів, сценаріїв та edge-cases.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in-up stagger-2 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-xl flex-shrink-0">⚖️</div>
+              <div>
+                <h4 class="heading-font text-lg font-bold mb-2">Економіка та баланс</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Модель UnionCoin, частоти карт, штрафи/бонуси, анти-домінантні стратегії та симуляції.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in-up stagger-3 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl flex-shrink-0">✍️</div>
+              <div>
+                <h4 class="heading-font text-lg font-bold mb-2">Контент 200+ карток</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Написання/редактура текстів, юридична та освітня коректність, уніфікація стилю.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in-up stagger-4 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-xl flex-shrink-0">🧪</div>
+              <div>
+                <h4 class="heading-font text-lg font-bold mb-2">Плейтести</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Модерація ігрових сесій, збір зворотного зв'язку, ітеративні правки для ідеального балансу.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in-up stagger-5 p-6 rounded-2xl bg-slate-800/50 border border-slate-700 lg:col-span-2">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-xl flex-shrink-0">🎨</div>
+              <div>
+                <h4 class="heading-font text-lg font-bold mb-2">Графічний дизайн</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Професійні макети ігрового поля, коробки, карток, валюти та всіх візуальних елементів. Модульні сітки та унікальний візуальний стиль.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Impact & Rights Protection -->
+    <section id="slide-6" class="slide flex-col items-center justify-center relative">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-green-500 blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-10 fade-in-up">
+          <span class="inline-block px-4 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-sm font-semibold mb-4">ВПЛИВ</span>
+          <h2 class="heading-font text-5xl font-bold mb-4">Захист прав працівників</h2>
+          <p class="text-slate-400 text-lg max-w-2xl mx-auto">Unionize — це більше ніж гра. Це інструмент соціальних змін.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div class="fade-in-up stagger-1 p-8 rounded-3xl bg-gradient-to-br from-green-500/10 to-transparent border border-green-500/20">
+            <h3 class="heading-font text-2xl font-bold mb-6 text-green-400">Чому захист прав важливий?</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span>
+                <p class="text-slate-300">Свідомі працівники краще знають свої права</p>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span>
+                <p class="text-slate-300">Знання законодавства — запорука справедливості</p>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span>
+                <p class="text-slate-300">Колективна дія ефективніша за індивідуальну</p>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 flex-shrink-0">✓</span>
+                <p class="text-slate-300">Профспілки — перевірений механізм захисту</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up stagger-2 p-8 rounded-3xl bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/20">
+            <h3 class="heading-font text-2xl font-bold mb-6 text-orange-400">Що дає гра?</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">📋</span>
+                <p class="text-slate-300">Базове розуміння трудового законодавства</p>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">🤝</span>
+                <p class="text-slate-300">Навички переговорів та комунікації</p>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">💡</span>
+                <p class="text-slate-300">Досвід вирішення реальних кризових ситуацій</p>
+              </li>
+              <li class="flex items-start gap-4">
+                <span class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400 flex-shrink-0">🔥</span>
+                <p class="text-slate-300">Мотивацію до активної громадянської позиції</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="fade-in-up stagger-3 text-center p-6 rounded-2xl glass-card">
+          <p class="text-xl text-slate-200 italic">
+            «Гра допоможе розібратися, як захистити працівників, навчить відповідальності за свої рішення і покаже, що
+            <span class="text-green-400 font-semibold">разом легше долати труднощі</span>»
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Advantages -->
+    <section id="slide-7" class="slide flex-col items-center justify-center relative">
+      <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/15 via-transparent to-green-500/15 opacity-40"></div>
+        <div class="absolute -top-24 -left-24 w-[520px] h-[520px] rounded-full bg-orange-500/10 blur-3xl"></div>
+        <div class="absolute -bottom-24 -right-24 w-[620px] h-[620px] rounded-full bg-yellow-500/10 blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-green-500/10 blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 max-w-6xl w-full">
+        <div class="text-center mb-10 fade-in-up">
+          <span class="inline-block px-5 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-sm font-semibold tracking-wider uppercase">Переваги гри</span>
+          <h2 class="heading-font text-5xl font-black mt-5 mb-4">Що дає Unionize учасникам</h2>
+          <p class="text-slate-300 text-xl max-w-4xl mx-auto leading-relaxed">
+            Не просто “пограли і розійшлися” — гра формує навички, які залишаються: мислення, взаємодія, впевненість, готовність діяти.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="fade-in-up stagger-1 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-orange-500/10 blur-2xl rounded-full"></div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center text-2xl shadow-lg shadow-orange-500/30">🎓</div>
+              <div class="flex-1">
+                <h3 class="heading-font text-xl font-bold">Навчання без “сухої теорії”</h3>
+                <p class="text-slate-400 text-sm mt-1">Знання засвоюються через дію, а не через лекції.</p>
+              </div>
+            </div>
+            <ul class="space-y-3 text-slate-300">
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-orange-500/20 flex items-center justify-center">✓</span><p>Практичне розуміння прав через ситуації та рішення.</p></li>
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-orange-500/20 flex items-center justify-center">✓</span><p>Мінімум “канцеляриту” — максимум ясності.</p></li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up stagger-2 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-green-500/10 blur-2xl rounded-full"></div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl shadow-lg shadow-green-500/30">🧠</div>
+              <div class="flex-1">
+                <h3 class="heading-font text-xl font-bold">Навички мислення й рішень</h3>
+                <p class="text-slate-400 text-sm mt-1">Гра тренує логіку, пріоритизацію та відповідальність.</p>
+              </div>
+            </div>
+            <ul class="space-y-3 text-slate-300">
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-green-500/20 flex items-center justify-center">✓</span><p>Де ризик, а де можливість — видно одразу в механіці.</p></li>
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-green-500/20 flex items-center justify-center">✓</span><p>Прокачує стратегічне мислення через ресурси та вибір.</p></li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up stagger-3 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 blur-2xl rounded-full"></div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl shadow-lg shadow-blue-500/30">🤝</div>
+              <div class="flex-1">
+                <h3 class="heading-font text-xl font-bold">Командність і довіра</h3>
+                <p class="text-slate-400 text-sm mt-1">Люди вчаться домовлятися та діяти разом.</p>
+              </div>
+            </div>
+            <ul class="space-y-3 text-slate-300">
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-blue-500/20 flex items-center justify-center">✓</span><p>Формує культуру взаємопідтримки, а не “кожен сам”.</p></li>
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-blue-500/20 flex items-center justify-center">✓</span><p>Показує силу колективних рішень у складних ситуаціях.</p></li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up stagger-4 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-purple-500/10 blur-2xl rounded-full"></div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/30">🛡️</div>
+              <div class="flex-1">
+                <h3 class="heading-font text-xl font-bold">Впевненість і “внутрішня опора”</h3>
+                <p class="text-slate-400 text-sm mt-1">Людина виходить із відчуттям “я знаю, що робити”.</p>
+              </div>
+            </div>
+            <ul class="space-y-3 text-slate-300">
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-purple-500/20 flex items-center justify-center">✓</span><p>Зменшує страх перед конфліктами й несправедливістю.</p></li>
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-purple-500/20 flex items-center justify-center">✓</span><p>Підсилює культуру правової обізнаності “в дії”.</p></li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up stagger-5 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-yellow-500/10 blur-2xl rounded-full"></div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-2xl shadow-lg shadow-yellow-500/30">🌱</div>
+              <div class="flex-1">
+                <h3 class="heading-font text-xl font-bold">Залучення молоді</h3>
+                <p class="text-slate-400 text-sm mt-1">Гра говорить із молоддю їхньою мовою: інтерактивно й чесно.</p>
+              </div>
+            </div>
+            <ul class="space-y-3 text-slate-300">
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-yellow-500/20 flex items-center justify-center">✓</span><p>Формує лідерство та інтерес до спільних дій.</p></li>
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-yellow-500/20 flex items-center justify-center">✓</span><p>Робить профспілку “живою” і зрозумілою, без стереотипів.</p></li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up stagger-6 card-hover p-7 rounded-3xl bg-slate-800/60 border border-slate-700 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 blur-2xl rounded-full"></div>
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-2xl shadow-lg shadow-emerald-500/30">📣</div>
+              <div class="flex-1">
+                <h3 class="heading-font text-xl font-bold">Комунікація та репутація</h3>
+                <p class="text-slate-400 text-sm mt-1">Unionize легко показати, пояснити й “дати відчути”.</p>
+              </div>
+            </div>
+            <ul class="space-y-3 text-slate-300">
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-emerald-500/20 flex items-center justify-center">✓</span><p>Працює як інструмент подій, навчань і презентацій.</p></li>
+              <li class="flex items-start gap-3"><span class="w-7 h-7 rounded-xl bg-emerald-500/20 flex items-center justify-center">✓</span><p>Створює досвід, який люди хочуть повторити й поширити.</p></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 9: Call to Action -->
+    <section id="slide-8" class="slide flex-col items-center justify-center relative">
+      <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-orange-500/20 via-transparent to-green-500/20 opacity-30"></div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-orange-500/10 blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-green-500/10 blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 text-center max-w-4xl">
+        <div class="fade-in-up stagger-1 mb-8">
+          <span class="inline-block px-6 py-2 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 font-semibold">
+            ЗАПРОШУЄМО ДО ПАРТНЕРСТВА
+          </span>
+        </div>
+
+        <h2 class="fade-in-up stagger-2 heading-font text-6xl font-black mb-6">
+          Інвестуйте в <span class="gradient-text">зміни</span>
+        </h2>
+
+        <p class="fade-in-up stagger-3 text-2xl text-slate-300 mb-8 leading-relaxed">
+          Ваша підтримка допоможе створити унікальний освітній інструмент, який змінить розуміння прав для тисяч працівників.
+        </p>
+
+        <div class="fade-in-up stagger-4 grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="p-6 rounded-2xl glass-card">
+            <div class="text-4xl mb-4">🎯</div>
+            <h4 class="heading-font font-bold text-lg mb-2">Соціальний вплив</h4>
+            <p class="text-slate-400 text-sm">Реальна зміна у свідомості працівників щодо їхніх прав</p>
+          </div>
+
+          <div class="p-6 rounded-2xl glass-card">
+            <div class="text-4xl mb-4">📈</div>
+            <h4 class="heading-font font-bold text-lg mb-2">Масштабування</h4>
+            <p class="text-slate-400 text-sm">Потенціал розповсюдження на всю Україну та далі</p>
+          </div>
+
+          <div class="p-6 rounded-2xl glass-card">
+            <div class="text-4xl mb-4">🏆</div>
+            <h4 class="heading-font font-bold text-lg mb-2">Визнання</h4>
+            <p class="text-slate-400 text-sm">Ваш внесок буде відзначено як партнера проєкту</p>
+          </div>
+        </div>
+
+        <div class="fade-in-up stagger-5 flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <div class="pulse-glow px-10 py-5 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-2xl font-bold text-xl text-slate-900">
+            Приєднуйтесь до Unionize! 💪
+          </div>
+        </div>
+
+        <p class="fade-in-up stagger-6 text-xl text-orange-400 font-semibold heading-font">
+          Грай. Думай. Дій. Разом — ми сила!
+        </p>
+      </div>
+    </section>
   </div>
+
   <script>
     const defaultConfig = {
       main_title: 'UNIONIZE',
-      subtitle: 'Профспілкова настільна гра, що об\'єднує'
+      subtitle: "Профспілкова настільна гра, що об'єднує"
     };
-    
+
     let config = { ...defaultConfig };
     let currentSlide = 0;
     const totalSlides = 9;
-    
+
     function updateUI() {
       const mainTitle = document.getElementById('main-title');
       const subtitle = document.getElementById('subtitle');
-      
       if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
       if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
     }
-    
+
+    function setVH() {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    }
+
+    function fitActiveSlide() {
+      const slide = document.querySelector('.slide.active');
+      if (!slide) return;
+
+      slide.style.setProperty('--fitScale', 1);
+
+      const rootStyles = getComputedStyle(document.documentElement);
+      const topNavRem = parseFloat(rootStyles.getPropertyValue('--topNav')) || 5.75;
+      const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      const topNavPx = topNavRem * fontSize;
+
+      const availableH = window.innerHeight - topNavPx - 16;
+      const availableW = window.innerWidth - 16;
+
+      const neededH = slide.scrollHeight;
+      const neededW = slide.scrollWidth;
+
+      const scaleH = availableH / (neededH || 1);
+      const scaleW = availableW / (neededW || 1);
+
+      let scale = Math.min(scaleH, scaleW, 1);
+      scale = Math.max(scale, 0.82);
+
+      slide.style.setProperty('--fitScale', scale);
+    }
+
     function showSlide(index) {
-      const slides = document.querySelectorAll('.slide');
-      const dots = document.querySelectorAll('.nav-dot');
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.nav-dot'));
       const progress = document.getElementById('progress');
-      
+
+      const safeIndex = Math.max(0, Math.min(index, totalSlides - 1));
+
       slides.forEach((slide, i) => {
         slide.classList.remove('active');
-        if (i === index) {
+
+        if (i === safeIndex) {
           slide.classList.add('active');
-          // Reset animations
+
           slide.querySelectorAll('.fade-in-up').forEach(el => {
             el.style.animation = 'none';
-            el.offsetHeight;
-            el.style.animation = null;
+            // force reflow
+            void el.offsetHeight;
+            el.style.animation = '';
           });
         }
       });
-      
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-      
-      progress.style.width = ((index + 1) / totalSlides * 100) + '%';
-      currentSlide = index;
-     
-  document.getElementById(`slide-${index}`)?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
+
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === safeIndex));
+
+      if (progress) progress.style.width = ((safeIndex + 1) / totalSlides * 100) + '%';
+
+      currentSlide = safeIndex;
+
+      const prevBtn = document.getElementById('btn-prev');
+      const nextBtn = document.getElementById('btn-next');
+      if (prevBtn) prevBtn.disabled = (safeIndex === 0);
+      if (nextBtn) nextBtn.disabled = (safeIndex === totalSlides - 1);
+
+      requestAnimationFrame(() => fitActiveSlide());
     }
 
     function nextSlide() {
-      if (currentSlide < totalSlides - 1) {
-        showSlide(currentSlide + 1);
-      }
+      if (currentSlide < totalSlides - 1) showSlide(currentSlide + 1);
     }
-    
+
     function prevSlide() {
-      if (currentSlide > 0) {
-        showSlide(currentSlide - 1);
-      }
+      if (currentSlide > 0) showSlide(currentSlide - 1);
     }
-    
+
     function goToSlide(index) {
       showSlide(index);
     }
-    
+
+    // Wire buttons and dots (avoid inline onclick)
+    document.getElementById('btn-next')?.addEventListener('click', nextSlide);
+    document.getElementById('btn-prev')?.addEventListener('click', prevSlide);
+    document.getElementById('btn-cta')?.addEventListener('click', nextSlide);
+
+    document.querySelectorAll('.nav-dot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = Number(btn.getAttribute('data-slide'));
+        if (!Number.isNaN(i)) goToSlide(i);
+      });
+    });
+
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
@@ -937,22 +918,22 @@ body { -webkit-text-size-adjust: 100%; }
         prevSlide();
       }
     });
-    
+
     // Touch/swipe support
     let touchStartY = 0;
     let touchStartX = 0;
-    
+
     document.addEventListener('touchstart', (e) => {
       touchStartY = e.touches[0].clientY;
       touchStartX = e.touches[0].clientX;
-    });
-    
+    }, { passive: true });
+
     document.addEventListener('touchend', (e) => {
       const touchEndY = e.changedTouches[0].clientY;
       const touchEndX = e.changedTouches[0].clientX;
       const diffY = touchStartY - touchEndY;
       const diffX = touchStartX - touchEndX;
-      
+
       if (Math.abs(diffY) > Math.abs(diffX)) {
         if (diffY > 50) nextSlide();
         else if (diffY < -50) prevSlide();
@@ -960,18 +941,18 @@ body { -webkit-text-size-adjust: 100%; }
         if (diffX > 50) nextSlide();
         else if (diffX < -50) prevSlide();
       }
-    });
-    
-    // Mouse wheel navigation
+    }, { passive: true });
+
+    // Mouse wheel navigation (debounced)
     let wheelTimeout;
     document.addEventListener('wheel', (e) => {
       clearTimeout(wheelTimeout);
       wheelTimeout = setTimeout(() => {
         if (e.deltaY > 0) nextSlide();
         else if (e.deltaY < 0) prevSlide();
-      }, 50);
+      }, 60);
     }, { passive: true });
-    
+
     // Element SDK integration
     if (window.elementSdk) {
       window.elementSdk.init({
@@ -979,8 +960,9 @@ body { -webkit-text-size-adjust: 100%; }
         onConfigChange: async (newConfig) => {
           config = { ...defaultConfig, ...newConfig };
           updateUI();
+          requestAnimationFrame(() => fitActiveSlide());
         },
-        mapToCapabilities: (cfg) => ({
+        mapToCapabilities: () => ({
           recolorables: [],
           borderables: [],
           fontEditable: undefined,
@@ -992,56 +974,15 @@ body { -webkit-text-size-adjust: 100%; }
         ])
       });
     }
-    // iOS viewport height fix (address bar safe)
-function setVH() {
-  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-}
-window.addEventListener('resize', setVH);
-window.addEventListener('orientationchange', setVH);
-setVH();
-   function fitActiveSlide() {
-  const slide = document.querySelector('.slide.active');
-  if (!slide) return;
 
-  // скидаємо scale, щоб коректно виміряти реальні розміри
-  slide.style.setProperty('--fitScale', 1);
-
-  // доступна висота: екран мінус верхня навігація і системні відступи
-  const topNav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--topNav')) || 92;
-  const availableH = window.innerHeight - topNav - 16; // 16px запас
-  const availableW = window.innerWidth - 16;
-
-  // реальна “потрібна” висота/ширина контенту
-  const neededH = slide.scrollHeight;
-  const neededW = slide.scrollWidth;
-
-  // scale по висоті і ширині
-  const scaleH = availableH / neededH;
-  const scaleW = availableW / neededW;
-
-  // беремо мінімальний (щоб влізло і по H, і по W)
-  let scale = Math.min(scaleH, scaleW, 1);
-
-  // не даємо робити мікротекст (нижня межа — під себе налаштуй)
-  scale = Math.max(scale, 0.82);
-
-  slide.style.setProperty('--fitScale', scale);
-}
-
-// після показу слайду — піджати
-const _showSlide = showSlide;
-showSlide = function(i){
-  _showSlide(i);
-  requestAnimationFrame(() => fitActiveSlide());
-};
-
-// на resize / rotate — піджати
-window.addEventListener('resize', () => requestAnimationFrame(fitActiveSlide));
-window.addEventListener('orientationchange', () => requestAnimationFrame(fitActiveSlide));
-
-    // Initialize
-    showSlide(0);
+    // Init
+    window.addEventListener('resize', () => { setVH(); requestAnimationFrame(fitActiveSlide); }, { passive: true });
+    window.addEventListener('orientationchange', () => { setVH(); requestAnimationFrame(fitActiveSlide); }, { passive: true });
+    setVH();
     updateUI();
+    showSlide(0);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c612004b51bc625',t:'MTc2OTc3Nzc0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+</body>
 </html>
+
