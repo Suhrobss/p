@@ -153,6 +153,67 @@
 
     @media (max-width: 640px){
       :root{ --topNav: 80px; }
+      /* ===== EXTRA MOBILE COMPACT (does NOT affect desktop) ===== */
+@media (max-width: 640px) and (max-height: 820px){
+
+  :root{ --topNav: 72px; } /* було 80px на моб */
+
+  /* загальні падінги слайдів — трохи менші */
+  section.slide{
+    padding-top: calc(var(--topNav) + env(safe-area-inset-top)) !important;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* Hero: заголовок/відступи компактніше */
+  #main-title{
+    font-size: clamp(2.2rem, 9vw, 4.2rem) !important;
+    line-height: 1.02 !important;
+    margin-bottom: 0.9rem !important;
+  }
+  #subtitle{
+    font-size: 1.05rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  #slide-0 .mb-12{ margin-bottom: 1.6rem !important; }
+  #slide-0 .mb-16{ margin-bottom: 1.6rem !important; }
+
+  /* Картки статистики в hero */
+  #slide-0 .glass-card{
+    padding: .65rem .85rem !important;
+  }
+  #slide-0 .glass-card .text-3xl{
+    font-size: 1.35rem !important;
+  }
+
+  /* Зменшуємо вертикальні відступи у заголовках слайдів */
+  .mb-12{ margin-bottom: 1.6rem !important; }
+  .mb-10{ margin-bottom: 1.1rem !important; }
+  .mb-8{  margin-bottom: 1rem !important; }
+  .p-8{   padding: 1.1rem !important; }
+  .p-7{   padding: 1.1rem !important; }
+  .p-6{   padding: 1rem !important; }
+
+  /* Сітки: менше gap */
+  .grid{ gap: 1rem !important; }
+  #slide-4 .grid.grid-cols-2{ gap: .75rem !important; } /* компоненти */
+
+  /* Slide 7 (benefits): на моб 2 колонки замість 3 */
+  #slide-7 .grid.lg\:grid-cols-3{
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  #slide-7 .heading-font.text-5xl{
+    font-size: 2.05rem !important;
+    line-height: 1.08 !important;
+  }
+
+  /* Кнопки навігації трохи компактніші */
+  #btn-prev, #btn-next{
+    padding: .55rem .8rem !important;
+    border-radius: .9rem !important;
+  }
+}
       /* доти праворуч сховаємо на мобільному */
       .fixed.right-6.top-1\/2{ display:none !important; }
       #btn-prev, #btn-next{
@@ -354,7 +415,7 @@
               <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl mb-5 shadow-lg shadow-blue-500/30">💪</div>
               <h3 class="heading-font text-xl font-bold mb-3">Дій</h3>
               <p class="text-slate-400 leading-relaxed">
-                Учасники відчують силу командної роботи та зрозуміють, як колективні дії змінюють реальність
+                Учасники проживуть гру як тренування: швидко оцінювати ситуацію, обирати стратегію та діяти
               </p>
             </div>
           </div>
@@ -364,7 +425,7 @@
               <div class="flex-1">
                 <h3 class="heading-font text-2xl font-bold mb-4">Справжня сила — в єдності</h3>
                 <p class="text-slate-300 leading-relaxed text-lg mb-4">
-                  Учасники відчують силу командної роботи та зрозуміють, як колективні дії змінюють реальність
+                  Учасники проживуть гру як тренування: швидко оцінювати ситуацію, обирати стратегію та діяти
                 </p>
                 <p class="text-orange-400 font-semibold text-xl">Разом — ми сила! 💪</p>
               </div>
@@ -477,7 +538,7 @@
 
             <div class="fade-in-up stagger-3 card-hover p-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-center">
               <div class="w-16 h-16 mx-auto rounded-2xl bg-green-500/20 flex items-center justify-center text-3xl mb-4">💰</div>
-              <h4 class="heading-font font-bold text-lg mb-2">UnionCoin</h4>
+              <h4 class="heading-font font-bold text-lg mb-2">UnionCoin+Соціальний рейтинг</h4>
               <p class="text-slate-400 text-sm">Ігрова валюта та ресурси</p>
             </div>
 
